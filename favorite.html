@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kitchen Kraft - Favorites</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f5ed;
+            color: #244637;
+            min-height: 100vh;
+            transition: 0.3s;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            height: 78px;
+            background: #fffdf7;
+            border-bottom: 1px solid #e2e6df;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: #174c39;
+
+            font-family: Georgia, serif;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #08734f;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #e3efdc;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav a {
+            color: #657269;
+            font-size: 14px;
+        }
+
+        .nav a:hover,
+        .nav .active {
+            color: #08734f;
+        }
+
+        .profile-button {
+            width: 40px;
+            height: 40px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #e3efdc;
+
+            font-size: 19px;
+
+            cursor: pointer;
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 55px 25px 80px;
+        }
+
+        .page-heading {
+            text-align: center;
+
+            margin-bottom: 45px;
+        }
+
+        .page-heading .small {
+            color: #08734f;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 10px;
+        }
+
+        .page-heading h1 {
+            font-family: Georgia, serif;
+
+            color: #174c39;
+
+            font-size: 44px;
+
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #7a847d;
+
+            font-size: 15px;
+        }
+
+        /* =========================
+           FAVORITE GRID
+        ========================= */
+
+        #favoritesGrid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 22px;
+        }
+
+        .favorite-card {
+
+            background: #fffdf8;
+
+            border: 1px solid #e4e5df;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            transition: 0.25s;
+
+            position: relative;
+        }
+
+        .favorite-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 15px 30px rgba(40,70,50,0.1);
+        }
+
+        .recipe-image {
+
+            height: 175px;
+
+            background: #e6efdf;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 75px;
+
+            position: relative;
+        }
+
+        .remove-favorite {
+
+            position: absolute;
+
+            right: 12px;
+            top: 12px;
+
+            width: 38px;
+            height: 38px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: white;
+
+            color: #d45555;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .recipe-info {
+
+            padding: 20px;
+        }
+
+        .recipe-info h3 {
+
+            font-family: Georgia, serif;
+
+            color: #244f3d;
+
+            font-size: 20px;
+
+            margin-bottom: 8px;
+        }
+
+        .recipe-info p {
+
+            color: #78837b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            margin-bottom: 14px;
+        }
+
+        .recipe-meta {
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            color: #778279;
+
+            font-size: 12px;
+
+            margin-bottom: 16px;
+        }
+
+        .view-recipe {
+
+            display: block;
+
+            text-align: center;
+
+            padding: 11px;
+
+            border-radius: 25px;
+
+            background: #08734f;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .view-recipe:hover {
+            background: #055d40;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+
+            text-align: center;
+
+            padding: 80px 20px;
+
+            background: #fffdf8;
+
+            border: 1px solid #e4e5df;
+
+            border-radius: 25px;
+        }
+
+        .empty-icon {
+
+            width: 85px;
+            height: 85px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #e5f0db;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 40px;
+        }
+
+        .empty-state h2 {
+
+            font-family: Georgia, serif;
+
+            color: #244f3d;
+
+            font-size: 28px;
+
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+
+            color: #7b857e;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+        }
+
+        .cook-button {
+
+            display: inline-block;
+
+            padding: 14px 25px;
+
+            border-radius: 30px;
+
+            background: #08734f;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            background: #174c39;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 40px 20px;
+        }
+
+        footer h2 {
+
+            font-family: Georgia, serif;
+
+            margin-bottom: 8px;
+        }
+
+        footer p {
+
+            color: rgba(255,255,255,0.75);
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark-mode {
+
+            background: #101813;
+
+            color: #e2eee5;
+        }
+
+        body.dark-mode .header {
+
+            background: #17231c;
+
+            border-color: #2d3c32;
+        }
+
+        body.dark-mode .logo {
+
+            color: #dcebdd;
+        }
+
+        body.dark-mode .logo span {
+
+            color: #75c594;
+        }
+
+        body.dark-mode .logo-icon {
+
+            background: #2b4032;
+        }
+
+        body.dark-mode .nav a {
+
+            color: #aebcb3;
+        }
+
+        body.dark-mode .nav a:hover,
+        body.dark-mode .nav .active {
+
+            color: #78c797;
+        }
+
+        body.dark-mode .profile-button {
+
+            background: #2b4032;
+        }
+
+        body.dark-mode .page-heading h1 {
+
+            color: #dcebdd;
+        }
+
+        body.dark-mode .page-heading p {
+
+            color: #929f97;
+        }
+
+        body.dark-mode .favorite-card {
+
+            background: #18231c;
+
+            border-color: #2d3d32;
+        }
+
+        body.dark-mode .recipe-image {
+
+            background: #263a2c;
+        }
+
+        body.dark-mode .recipe-info h3 {
+
+            color: #dcebdd;
+        }
+
+        body.dark-mode .recipe-info p,
+        body.dark-mode .recipe-meta {
+
+            color: #9baaa0;
+        }
+
+        body.dark-mode .remove-favorite {
+
+            background: #edf2ed;
+        }
+
+        body.dark-mode .empty-state {
+
+            background: #18231c;
+
+            border-color: #2d3d32;
+        }
+
+        body.dark-mode .empty-state h2 {
+
+            color: #dcebdd;
+        }
+
+        body.dark-mode .empty-state p {
+
+            color: #9baaa0;
+        }
+
+        body.dark-mode footer {
+
+            background: #09100c;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            #favoritesGrid {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .header {
+
+                height: auto;
+
+                padding: 15px;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            .nav {
+
+                gap: 14px;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+            .page {
+
+                padding: 35px 15px 60px;
+            }
+
+            .page-heading h1 {
+
+                font-size: 35px;
+            }
+
+            #favoritesGrid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+
+    <a href="home.html" class="logo">
+
+        <div class="logo-icon">
+            👨‍🍳
+        </div>
+
+        Kitchen <span>Kraft</span>
+
+    </a>
+
+
+    <nav class="nav">
+
+        <a href="home.html">
+            Home
+        </a>
+
+        <a href="ingredient.html">
+            My Kitchen
+        </a>
+
+        <a href="matches.html">
+            Recipes
+        </a>
+
+        <a
+            href="favorite.html"
+            class="active"
+        >
+            Favorites
+        </a>
+
+        <button
+            class="profile-button"
+            type="button"
+            onclick="goToHomeSettings()"
+            title="Profile"
+        >
+            👤
+        </button>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="page">
+
+
+    <div class="page-heading">
+
+        <div class="small">
+            Your saved recipes
+        </div>
+
+        <h1>
+            ❤️ My Favorites
+        </h1>
+
+        <p>
+            Recipes you've saved for your next delicious meal.
+        </p>
+
+    </div>
+
+
+    <!-- FAVORITES ARE INSERTED HERE -->
+
+    <div id="favoritesGrid"></div>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <h2>
+        👨‍🍳 Kitchen Kraft
+    </h2>
+
+    <p>
+        Cook More With What You Have.
+    </p>
+
+</footer>
+
+
+
+<script>
+
+    /* =====================================================
+       LOAD FAVORITES
+    ===================================================== */
+
+    function loadFavorites() {
+
+        const grid =
+            document.getElementById("favoritesGrid");
+
+
+        let favoriteIds =
+            JSON.parse(
+                localStorage.getItem(
+                    "kitchenKraftFavorites"
+                )
+            ) || [];
+
+
+        /* Make sure recipeData exists */
+
+        if (
+            typeof recipeData === "undefined"
+        ) {
+
+            grid.innerHTML = `
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    <h2>
+                        Recipes could not be loaded
+                    </h2>
+
+                    <p>
+                        Please make sure JS/recipeData.js
+                        is present.
+                    </p>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        /* No favorites */
+
+        if (favoriteIds.length === 0) {
+
+            grid.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ❤️
+                    </div>
+
+                    <h2>
+                        No favorites yet
+                    </h2>
+
+                    <p>
+                        Save your favorite recipes and
+                        they will appear here.
+                    </p>
+
+                    <a
+                        href="matches.html"
+                        class="cook-button"
+                    >
+                        Explore Recipes →
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        grid.innerHTML = "";
+
+
+        /* Create cards */
+
+        favoriteIds.forEach(function(recipeId) {
+
+            const recipe =
+                recipeData[recipeId];
+
+
+            /* Ignore deleted/invalid IDs */
+
+            if (!recipe) {
+                return;
+            }
+
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "favorite-card";
+
+
+            card.innerHTML = `
+
+                <div class="recipe-image">
+
+                    ${recipe.emoji || "🍽️"}
+
+                    <button
+                        class="remove-favorite"
+                        type="button"
+                        onclick="removeFavorite('${recipeId}')"
+                        title="Remove from favorites"
+                    >
+                        ♥
+                    </button>
+
+                </div>
+
+
+                <div class="recipe-info">
+
+                    <h3>
+                        ${recipe.name}
+                    </h3>
+
+
+                    <p>
+                        ${getDescription(recipe)}
+                    </p>
+
+
+                    <div class="recipe-meta">
+
+                        <span>
+                            ⏱ ${recipe.time || "20 min"}
+                        </span>
+
+                        <span>
+                            👥 ${recipe.servings || "2"}
+                        </span>
+
+                        <span>
+                            ${recipe.meal || ""}
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="recipe.html?recipe=${recipeId}"
+                        class="view-recipe"
+                    >
+                        VIEW RECIPE →
+                    </a>
+
+                </div>
+
+            `;
+
+
+            grid.appendChild(card);
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       RECIPE DESCRIPTION
+    ===================================================== */
+
+    function getDescription(recipe) {
+
+        if (recipe.description) {
+
+            return recipe.description;
+
+        }
+
+
+        if (recipe.ingredients) {
+
+            return (
+                "A delicious " +
+                (recipe.meal || "") +
+                " recipe made with simple ingredients."
+            );
+
+        }
+
+
+        return "A delicious Kitchen Kraft recipe.";
+
+    }
+
+
+
+    /* =====================================================
+       REMOVE FAVORITE
+    ===================================================== */
+
+    function removeFavorite(recipeId) {
+
+        let favorites =
+            JSON.parse(
+                localStorage.getItem(
+                    "kitchenKraftFavorites"
+                )
+            ) || [];
+
+
+        favorites =
+            favorites.filter(
+                function(id) {
+
+                    return id !== recipeId;
+
+                }
+            );
+
+
+        localStorage.setItem(
+
+            "kitchenKraftFavorites",
+
+            JSON.stringify(favorites)
+
+        );
+
+
+        loadFavorites();
+
+    }
+
+
+
+    /* =====================================================
+       PROFILE BUTTON
+       Goes back to Home settings/profile
+    ===================================================== */
+
+    function goToHomeSettings() {
+
+        window.location.href =
+            "home.html";
+
+    }
+
+
+
+    /* =====================================================
+       DARK MODE
+       Same setting used by HOME PAGE
+    ===================================================== */
+
+    function loadTheme() {
+
+        const savedTheme =
+            localStorage.getItem(
+                "kitchenKraftTheme"
+            );
+
+
+        if (savedTheme === "dark") {
+
+            document.body.classList.add(
+                "dark-mode"
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       START
+    ===================================================== */
+
+    loadTheme();
+
+    loadFavorites();
+
+</script>
+
+
+<!-- IMPORTANT:
+     recipeData.js MUST load before this page's
+     loadFavorites() function runs.
+-->
+
+<script src="JS/recipeData.js"></script>
+
+<script>
+
+    /*
+       Reload after recipeData.js has loaded.
+    */
+
+    loadFavorites();
+
+</script>
+
+
+</body>
+
+</html>

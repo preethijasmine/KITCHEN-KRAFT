@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kitchen Kraft - Recipe</title>
+
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f6ef;
+            color: #26352a;
+        }
+
+        /* HEADER */
+
+        header {
+            background: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e2d8;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #315c3b;
+        }
+
+        .logo span {
+            margin-right: 6px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #37433a;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #315c3b;
+        }
+
+        /* MAIN */
+
+        .recipe-page {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+            padding: 35px 0 70px;
+        }
+
+        /* BACK BUTTON */
+
+        .back-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #315c3b;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* HERO */
+
+        .recipe-hero {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            border: 1px solid #e5e2d8;
+        }
+
+        .recipe-emoji {
+            font-size: 80px;
+            margin-bottom: 10px;
+        }
+
+        .recipe-title {
+            font-size: 38px;
+            color: #294b32;
+            margin: 10px 0;
+        }
+
+        .recipe-description {
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .meta-item {
+            background: #edf3e9;
+            color: #315c3b;
+            padding: 9px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* VOICE */
+
+        .voice-area {
+            margin-top: 20px;
+        }
+
+        .voice-btn {
+            border: none;
+            padding: 13px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .speak-btn {
+            background: #315c3b;
+            color: white;
+        }
+
+        .speak-btn:hover {
+            background: #24482d;
+        }
+
+        .stop-btn {
+            background: #eeeeee;
+            color: #333;
+        }
+
+        .stop-btn:hover {
+            background: #dddddd;
+        }
+
+        .voice-status {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* FAVORITE */
+
+        .favorite-btn {
+            border: 1px solid #d7ddd3;
+            background: white;
+            color: #315c3b;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        .favorite-btn.active {
+            background: #315c3b;
+            color: white;
+        }
+
+        /* CONTENT */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            border: 1px solid #e5e2d8;
+        }
+
+        .section-card.full {
+            grid-column: 1 / -1;
+        }
+
+        .section-title {
+            color: #294b32;
+            font-size: 23px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* INGREDIENTS */
+
+        .ingredient-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ingredient-list li {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .ingredient-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ingredient-name {
+            font-weight: 600;
+        }
+
+        .ingredient-quantity {
+            color: #777;
+        }
+
+        /* STEPS */
+
+        .steps {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            counter-reset: steps;
+        }
+
+        .steps li {
+            counter-increment: steps;
+            position: relative;
+            padding: 12px 10px 12px 55px;
+            margin-bottom: 12px;
+            background: #f5f7f1;
+            border-radius: 12px;
+            line-height: 1.5;
+        }
+
+        .steps li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #315c3b;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* NUTRITION */
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .nutrition-item {
+            text-align: center;
+            background: #f5f7f1;
+            padding: 18px 10px;
+            border-radius: 12px;
+        }
+
+        .nutrition-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #315c3b;
+        }
+
+        .nutrition-label {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        /* ERROR */
+
+        .error-box {
+            background: white;
+            border-radius: 18px;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .error-box h2 {
+            color: #294b32;
+        }
+
+        .home-btn {
+            display: inline-block;
+            background: #315c3b;
+            color: white;
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 15px 5%;
+            }
+
+            nav {
+                gap: 10px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .recipe-page {
+                width: 92%;
+            }
+
+            .recipe-hero {
+                padding: 25px 18px;
+            }
+
+            .recipe-title {
+                font-size: 30px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-card.full {
+                grid-column: auto;
+            }
+
+            .nutrition-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        <span>👨‍🍳</span>
+        Kitchen Kraft
+    </div>
+
+    <nav>
+
+        <a href="home.html">Home</a>
+
+        <a href="ingredient.html">
+            My Kitchen
+        </a>
+
+        <a href="matches.html">
+            Recipes
+        </a>
+
+        <a href="favorites.html">
+            ❤️ Favorites
+        </a>
+
+        <a href="#" onclick="logoutUser()">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- RECIPE PAGE -->
+
+<main class="recipe-page">
+
+
+    <a href="matches.html" class="back-link">
+        ← Back to Recipes
+    </a>
+
+
+    <!-- RECIPE WILL BE LOADED HERE -->
+
+    <div id="recipeContainer"></div>
+
+
+</main>
+
+
+
+<!-- LOAD DATA FIRST -->
+
+<script src="JS/recipeData.js"></script>
+
+<script src="JS/script.js"></script>
+
+
+<script>
+
+    /* ==========================================
+       GET RECIPE ID FROM URL
+    ========================================== */
+
+    const urlParams =
+        new URLSearchParams(window.location.search);
+
+    const recipeId =
+        urlParams.get("recipe");
+
+
+    /* ==========================================
+       FAVORITES
+    ========================================== */
+
+    function getFavorites() {
+
+        const saved =
+            localStorage.getItem(
+                "kitchenKraftFavorites"
+            );
+
+        if (!saved) {
+            return [];
+        }
+
+        try {
+            return JSON.parse(saved);
+        } catch {
+            return [];
+        }
+    }
+
+
+    function saveFavorites(favorites) {
+
+        localStorage.setItem(
+            "kitchenKraftFavorites",
+            JSON.stringify(favorites)
+        );
+
+    }
+
+
+    function toggleFavorite() {
+
+        let favorites =
+            getFavorites();
+
+        const index =
+            favorites.indexOf(recipeId);
+
+
+        if (index === -1) {
+
+            favorites.push(recipeId);
+
+            saveFavorites(favorites);
+
+            updateFavoriteButton();
+
+            alert("Recipe added to Favorites ❤️");
+
+        } else {
+
+            favorites.splice(index, 1);
+
+            saveFavorites(favorites);
+
+            updateFavoriteButton();
+
+            alert("Recipe removed from Favorites");
+
+        }
+
+    }
+
+
+    function updateFavoriteButton() {
+
+        const button =
+            document.getElementById(
+                "favoriteButton"
+            );
+
+        if (!button) return;
+
+
+        const favorites =
+            getFavorites();
+
+
+        if (favorites.includes(recipeId)) {
+
+            button.classList.add("active");
+
+            button.innerHTML =
+                "❤️ Added to Favorites";
+
+        } else {
+
+            button.classList.remove("active");
+
+            button.innerHTML =
+                "♡ Add to Favorites";
+
+        }
+
+    }
+
+
+
+    /* ==========================================
+       DISPLAY RECIPE
+    ========================================== */
+
+    function displayRecipe() {
+
+        const container =
+            document.getElementById(
+                "recipeContainer"
+            );
+
+
+        if (
+            !recipeId ||
+            typeof recipeData === "undefined" ||
+            !recipeData[recipeId]
+        ) {
+
+            container.innerHTML = `
+
+                <div class="error-box">
+
+                    <div style="font-size:60px;">
+                        🍳
+                    </div>
+
+                    <h2>
+                        Recipe Not Found
+                    </h2>
+
+                    <p>
+                        Sorry, we couldn't find this recipe.
+                    </p>
+
+                    <a
+                        href="matches.html"
+                        class="home-btn"
+                    >
+                        View Recipes
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const recipe =
+            recipeData[recipeId];
+
+
+        /* =====================================
+           INGREDIENTS HTML
+        ===================================== */
+
+        let ingredientsHTML = "";
+
+
+        recipe.ingredients.forEach(
+            function(item) {
+
+                ingredientsHTML += `
+
+                    <li>
+
+                        <span class="ingredient-name">
+                            ${item[0]}
+                        </span>
+
+                        <span class="ingredient-quantity">
+                            ${item[1]}
+                        </span>
+
+                    </li>
+
+                `;
+
+            }
+        );
+
+
+        /* =====================================
+           STEPS HTML
+        ===================================== */
+
+        let stepsHTML = "";
+
+
+        recipe.steps.forEach(
+            function(step) {
+
+                stepsHTML += `
+
+                    <li>
+                        ${step}
+                    </li>
+
+                `;
+
+            }
+        );
+
+
+        /* =====================================
+           NUTRITION
+        ===================================== */
+
+        const nutrition =
+            recipe.nutrition || {};
+
+
+        container.innerHTML = `
+
+            <!-- HERO -->
+
+            <section class="recipe-hero">
+
+                <div class="recipe-emoji">
+                    ${recipe.emoji || "🍴"}
+                </div>
+
+
+                <h1 class="recipe-title">
+                    ${recipe.name}
+                </h1>
+
+
+                <p class="recipe-description">
+                    A delicious ${recipe.meal || ""}
+                    recipe made with simple ingredients.
+                </p>
+
+
+                <div class="recipe-meta">
+
+                    <span class="meta-item">
+                        ⏱ ${recipe.time || "N/A"}
+                    </span>
+
+                    <span class="meta-item">
+                        👥 ${recipe.servings || "N/A"} servings
+                    </span>
+
+                    <span class="meta-item">
+                        📊 ${recipe.difficulty || "Easy"}
+                    </span>
+
+                </div>
+
+
+                <!-- VOICE ASSISTANT -->
+
+                <div class="voice-area">
+
+                    <button
+                        class="voice-btn speak-btn"
+                        onclick="speakRecipe()"
+                    >
+                        🎙️ Voice Assistant
+                    </button>
+
+
+                    <button
+                        class="voice-btn stop-btn"
+                        onclick="stopVoice()"
+                    >
+                        🔇 Stop
+                    </button>
+
+
+                    <div
+                        id="voiceStatus"
+                        class="voice-status"
+                    >
+                        Click Voice Assistant to hear the recipe.
+                    </div>
+
+                </div>
+
+
+                <!-- FAVORITE -->
+
+                <button
+                    id="favoriteButton"
+                    class="favorite-btn"
+                    onclick="toggleFavorite()"
+                >
+                    ♡ Add to Favorites
+                </button>
+
+            </section>
+
+
+
+            <!-- CONTENT -->
+
+            <div class="content-grid">
+
+
+                <!-- INGREDIENTS -->
+
+                <section class="section-card">
+
+                    <h2 class="section-title">
+                        🧺 Ingredients
+                    </h2>
+
+                    <ul class="ingredient-list">
+                        ${ingredientsHTML}
+                    </ul>
+
+                </section>
+
+
+
+                <!-- NUTRITION -->
+
+                <section class="section-card">
+
+                    <h2 class="section-title">
+                        🥗 Nutrition
+                    </h2>
+
+                    <div class="nutrition-grid">
+
+                        <div class="nutrition-item">
+
+                            <div class="nutrition-value">
+                                ${nutrition.calories || "-"}
+                            </div>
+
+                            <div class="nutrition-label">
+                                Calories
+                            </div>
+
+                        </div>
+
+
+                        <div class="nutrition-item">
+
+                            <div class="nutrition-value">
+                                ${nutrition.protein || "-"}
+                            </div>
+
+                            <div class="nutrition-label">
+                                Protein
+                            </div>
+
+                        </div>
+
+
+                        <div class="nutrition-item">
+
+                            <div class="nutrition-value">
+                                ${nutrition.carbs || "-"}
+                            </div>
+
+                            <div class="nutrition-label">
+                                Carbs
+                            </div>
+
+                        </div>
+
+
+                        <div class="nutrition-item">
+
+                            <div class="nutrition-value">
+                                ${nutrition.fat || "-"}
+                            </div>
+
+                            <div class="nutrition-label">
+                                Fat
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- COOKING STEPS -->
+
+                <section class="section-card full">
+
+                    <h2 class="section-title">
+                        👨‍🍳 Cooking Steps
+                    </h2>
+
+                    <ol class="steps">
+                        ${stepsHTML}
+                    </ol>
+
+                </section>
+
+
+            </div>
+
+        `;
+
+
+        updateFavoriteButton();
+
+    }
+
+
+
+    /* ==========================================
+       VOICE ASSISTANT
+    ========================================== */
+
+    function speakRecipe() {
+
+        if (!("speechSynthesis" in window)) {
+
+            alert(
+                "Voice Assistant is not supported in this browser."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !recipeId ||
+            !recipeData[recipeId]
+        ) {
+
+            alert("Recipe not found.");
+
+            return;
+
+        }
+
+
+        const recipe =
+            recipeData[recipeId];
+
+
+        /* Stop anything already speaking */
+
+        window.speechSynthesis.cancel();
+
+
+        let text = "";
+
+
+        /* INTRO */
+
+        text +=
+            "Welcome to Kitchen Kraft. ";
+
+
+        text +=
+            "Today we are making "
+            + recipe.name
+            + ". ";
+
+
+        /* TIME */
+
+        if (recipe.time) {
+
+            text +=
+                "The cooking time is "
+                + recipe.time
+                + ". ";
+
+        }
+
+
+        /* INGREDIENTS */
+
+        text +=
+            "Here are the ingredients. ";
+
+
+        recipe.ingredients.forEach(
+            function(item) {
+
+                text +=
+                    item[0]
+                    + ", "
+                    + item[1]
+                    + ". ";
+
+            }
+        );
+
+
+        /* STEPS */
+
+        text +=
+            "Now let's start cooking. ";
+
+
+        recipe.steps.forEach(
+            function(step, index) {
+
+                text +=
+                    "Step "
+                    + (index + 1)
+                    + ". "
+                    + step
+                    + ". ";
+
+            }
+        );
+
+
+        /* END */
+
+        text +=
+            "Your "
+            + recipe.name
+            + " is ready. Enjoy your meal!";
+
+
+        const speech =
+            new SpeechSynthesisUtterance(text);
+
+
+        speech.rate = 0.9;
+
+        speech.pitch = 1;
+
+        speech.volume = 1;
+
+
+        /* VOICE STATUS */
+
+        const status =
+            document.getElementById(
+                "voiceStatus"
+            );
+
+
+        status.textContent =
+            "🔊 Kitchen Kraft is reading the recipe...";
+
+
+        speech.onend =
+            function() {
+
+                status.textContent =
+                    "✅ Recipe reading completed.";
+
+            };
+
+
+        speech.onerror =
+            function() {
+
+                status.textContent =
+                    "⚠️ Unable to play the voice.";
+
+            };
+
+
+        window.speechSynthesis.speak(
+            speech
+        );
+
+    }
+
+
+
+    /* ==========================================
+       STOP VOICE
+    ========================================== */
+
+    function stopVoice() {
+
+        if (
+            "speechSynthesis" in window
+        ) {
+
+            window.speechSynthesis.cancel();
+
+            const status =
+                document.getElementById(
+                    "voiceStatus"
+                );
+
+            if (status) {
+
+                status.textContent =
+                    "🔇 Voice assistant stopped.";
+
+            }
+
+        }
+
+    }
+
+
+
+    /* ==========================================
+       START
+    ========================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            displayRecipe();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

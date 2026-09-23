@@ -1,0 +1,2689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Kitchen Kraft - Home</title>
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            background: #f7f5ed;
+
+            color: #244637;
+
+            font-family: Arial, sans-serif;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .kk-header {
+
+            height: 78px;
+
+            background: #fffdf7;
+
+            border-bottom: 1px solid #e4e7df;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            transition:
+                background 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+
+        /* LOGO */
+
+        .kk-logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-family: Georgia, serif;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            color: #174c39;
+        }
+
+
+        .kk-logo span {
+            color: #08734f;
+        }
+
+
+        .kk-logo-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #e4efdc;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+
+        /* NAV */
+
+        .kk-nav {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+        }
+
+
+        .kk-nav > a {
+
+            color: #58685f;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: color 0.2s;
+        }
+
+
+        .kk-nav > a:hover,
+        .kk-nav > a.active {
+
+            color: #08734f;
+        }
+
+
+        .kk-heart {
+
+            font-size: 22px !important;
+
+            color: #08734f !important;
+        }
+
+
+        /* =====================================================
+           PROFILE BUTTON
+        ===================================================== */
+
+        .profile-menu {
+            position: relative;
+        }
+
+
+        .profile-button {
+
+            width: 40px;
+
+            height: 40px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #e0ecd9;
+
+            color: #174c39;
+
+            font-size: 19px;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            transition: 0.2s;
+        }
+
+
+        .profile-button:hover {
+
+            transform: scale(1.05);
+
+            background: #cfe2c7;
+        }
+
+
+        /* =====================================================
+           PROFILE DROPDOWN
+        ===================================================== */
+
+        .profile-dropdown {
+
+            position: absolute;
+
+            top: 53px;
+
+            right: 0;
+
+            width: 285px;
+
+            background: #fffdf8;
+
+            border: 1px solid #dfe5da;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 15px 35px rgba(27, 65, 45, 0.16);
+
+            padding: 15px;
+
+            display: none;
+
+            animation: dropdown 0.18s ease;
+
+            z-index: 2000;
+        }
+
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+
+        @keyframes dropdown {
+
+            from {
+                opacity: 0;
+                transform: translateY(-7px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* PROFILE TITLE */
+
+        .profile-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 8px;
+        }
+
+
+        .profile-big-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            border-radius: 50%;
+
+            background: #e4efdc;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+
+        .profile-title strong {
+
+            display: block;
+
+            color: #214f3b;
+
+            font-size: 15px;
+        }
+
+
+        .profile-title small {
+
+            display: block;
+
+            color: #89938c;
+
+            margin-top: 4px;
+
+            font-size: 12px;
+        }
+
+
+        .dropdown-divider {
+
+            height: 1px;
+
+            background: #e6e9e3;
+
+            margin: 10px 0;
+        }
+
+
+        /* PROFILE OPTIONS */
+
+        .profile-option {
+
+            width: 100%;
+
+            min-height: 45px;
+
+            padding: 9px 10px;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #526158;
+
+            font-size: 14px;
+
+            border: none;
+
+            background: transparent;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .profile-option:hover {
+
+            background: #edf4e9;
+
+            color: #174c39;
+        }
+
+
+        .profile-option-icon {
+
+            width: 24px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        /* SETTINGS TITLE */
+
+        .settings-title {
+
+            padding: 5px 10px 8px;
+
+            color: #89938c;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+        }
+
+
+        /* SETTING ROW */
+
+        .setting-row {
+
+            justify-content: flex-start;
+
+            cursor: default;
+        }
+
+
+        .setting-row:hover {
+            cursor: default;
+        }
+
+
+        .setting-name {
+            flex: 1;
+        }
+
+
+        .setting-status {
+
+            font-size: 11px;
+
+            color: #7d8981;
+
+            margin-right: 4px;
+        }
+
+
+        /* =====================================================
+           TOGGLE SWITCH
+        ===================================================== */
+
+        .switch {
+
+            position: relative;
+
+            display: inline-block;
+
+            width: 43px;
+
+            height: 23px;
+
+            flex-shrink: 0;
+        }
+
+
+        .switch input {
+            opacity: 0;
+
+            width: 0;
+
+            height: 0;
+        }
+
+
+        .slider {
+
+            position: absolute;
+
+            cursor: pointer;
+
+            inset: 0;
+
+            background: #c8d0c7;
+
+            border-radius: 30px;
+
+            transition: 0.25s;
+        }
+
+
+        .slider::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 17px;
+
+            height: 17px;
+
+            left: 3px;
+
+            top: 3px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            transition: 0.25s;
+
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+
+
+        .switch input:checked + .slider {
+
+            background: #28734e;
+        }
+
+
+        .switch input:checked + .slider::before {
+
+            transform: translateX(20px);
+        }
+
+
+        /* LOGOUT */
+
+        .logout-button {
+
+            color: #a34d4d;
+        }
+
+
+        .logout-button:hover {
+
+            background: #faeded;
+
+            color: #963c3c;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+
+            max-width: 1200px;
+
+            margin: 35px auto 0;
+
+            padding: 0 25px;
+        }
+
+
+        .hero-box {
+
+            min-height: 405px;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #dfead4,
+                    #edf2e4,
+                    #d6e5ce
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 55px 65px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition: background 0.3s ease;
+        }
+
+
+        .hero-content {
+
+            width: 55%;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .hero-small {
+
+            color: #08734f;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            letter-spacing: 1.4px;
+
+            margin-bottom: 15px;
+
+            text-transform: uppercase;
+        }
+
+
+        .hero h1 {
+
+            font-family: Georgia, serif;
+
+            font-size: clamp(38px, 5vw, 64px);
+
+            line-height: 1.05;
+
+            color: #164b38;
+
+            margin-bottom: 20px;
+        }
+
+
+        .hero h1 span {
+
+            color: #08734f;
+
+            font-style: italic;
+        }
+
+
+        .hero-description {
+
+            color: #5e6c62;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+
+            max-width: 500px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .hero-buttons {
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .hero-primary {
+
+            background: #08734f;
+
+            color: white;
+
+            padding: 15px 25px;
+
+            border-radius: 30px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+
+        .hero-primary:hover {
+
+            background: #055b3e;
+
+            transform: translateY(-2px);
+        }
+
+
+        .hero-secondary {
+
+            background: #fffdf7;
+
+            color: #315444;
+
+            padding: 14px 24px;
+
+            border-radius: 30px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            border: 1px solid #d7dfd1;
+        }
+
+
+        .hero-decoration {
+
+            position: absolute;
+
+            right: 55px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 310px;
+
+            height: 310px;
+
+            border-radius: 50%;
+
+            background: #fffdf7;
+
+            box-shadow:
+                0 15px 40px rgba(53,77,54,0.13);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 135px;
+        }
+
+
+        .leaf-one {
+
+            position: absolute;
+
+            right: 25px;
+
+            top: 25px;
+
+            font-size: 45px;
+
+            transform: rotate(20deg);
+        }
+
+
+        .leaf-two {
+
+            position: absolute;
+
+            right: 320px;
+
+            bottom: 15px;
+
+            font-size: 35px;
+
+            transform: rotate(-25deg);
+        }
+
+
+        /* =====================================================
+           SECTIONS
+        ===================================================== */
+
+        .section {
+
+            max-width: 1200px;
+
+            margin: 50px auto 0;
+
+            padding: 0 25px;
+        }
+
+
+        .section-heading {
+
+            display: flex;
+
+            align-items: end;
+
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+
+        .section-heading h2 {
+
+            font-family: Georgia, serif;
+
+            font-size: 29px;
+
+            color: #174c39;
+        }
+
+
+        .section-heading p {
+
+            margin-top: 5px;
+
+            color: #7a847d;
+
+            font-size: 14px;
+        }
+
+
+        .view-all {
+
+            color: #08734f;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           QUICK START
+        ===================================================== */
+
+        .quick-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(3,1fr);
+
+            gap: 18px;
+        }
+
+
+        .quick-card {
+
+            background: #fffdf8;
+
+            border: 1px solid #e8e5dc;
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            min-height: 160px;
+
+            transition: 0.25s;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .quick-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 25px rgba(48,75,53,0.08);
+        }
+
+
+        .quick-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 15px;
+
+            background: #e5f0db;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 26px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .quick-card h3 {
+
+            font-family: Georgia, serif;
+
+            color: #244f3d;
+
+            margin-bottom: 7px;
+
+            font-size: 20px;
+        }
+
+
+        .quick-card p {
+
+            color: #78837b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .quick-arrow {
+
+            position: absolute;
+
+            right: 22px;
+
+            bottom: 20px;
+
+            color: #08734f;
+
+            font-size: 20px;
+        }
+
+
+        /* =====================================================
+           MEALS
+        ===================================================== */
+
+        .meal-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(4,1fr);
+
+            gap: 16px;
+        }
+
+
+        .meal-card {
+
+            height: 145px;
+
+            border-radius: 20px;
+
+            padding: 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: end;
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition: 0.25s;
+        }
+
+
+        .meal-card:hover {
+
+            transform: translateY(-4px);
+        }
+
+
+        .meal-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    transparent 25%,
+                    rgba(0,0,0,0.48)
+                );
+        }
+
+
+        .meal-emoji {
+
+            position: absolute;
+
+            top: 22px;
+
+            right: 22px;
+
+            font-size: 43px;
+        }
+
+
+        .meal-card h3,
+        .meal-card p {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .meal-card h3 {
+
+            color: white;
+
+            font-family: Georgia, serif;
+
+            font-size: 22px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .meal-card p {
+
+            color: rgba(255,255,255,0.85);
+
+            font-size: 12px;
+        }
+
+
+        .breakfast {
+            background: #d0a15b;
+        }
+
+        .lunch {
+            background: #78966e;
+        }
+
+        .dinner {
+            background: #547266;
+        }
+
+        .dessert {
+            background: #b58280;
+        }
+
+
+        /* =====================================================
+           POPULAR
+        ===================================================== */
+
+        .popular-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(4,1fr);
+
+            gap: 18px;
+        }
+
+
+        .popular-card {
+
+            background: #fffdf8;
+
+            border: 1px solid #e8e5dc;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            transition: 0.25s;
+        }
+
+
+        .popular-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 12px 25px rgba(48,75,53,0.08);
+        }
+
+
+        .popular-image {
+
+            height: 155px;
+
+            background: #e5f0db;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 70px;
+
+            position: relative;
+        }
+
+
+        .popular-heart {
+
+            position: absolute;
+
+            right: 15px;
+
+            top: 15px;
+
+            width: 35px;
+
+            height: 35px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+
+        .popular-content {
+
+            padding: 18px;
+        }
+
+
+        .popular-content h3 {
+
+            font-family: Georgia, serif;
+
+            color: #244f3d;
+
+            font-size: 20px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .popular-content p {
+
+            color: #78837b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            margin-bottom: 14px;
+        }
+
+
+        .popular-meta {
+
+            display: flex;
+
+            gap: 10px;
+
+            color: #6f7b72;
+
+            font-size: 12px;
+        }
+
+
+        .popular-link {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            color: #08734f;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .kk-footer {
+
+            margin-top: 70px;
+
+            padding: 45px 20px;
+
+            background: #174c39;
+
+            text-align: center;
+
+            color: white;
+
+            transition: background 0.3s ease;
+        }
+
+
+        .kk-footer h2 {
+
+            font-family: Georgia, serif;
+
+            margin-bottom: 8px;
+        }
+
+
+        .kk-footer p {
+
+            color: rgba(255,255,255,0.75);
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           DARK MODE
+        ===================================================== */
+
+        body.dark-mode {
+
+            background: #101813;
+
+            color: #e4eee7;
+        }
+
+
+        body.dark-mode .kk-header {
+
+            background: #17231c;
+
+            border-color: #29392f;
+        }
+
+
+        body.dark-mode .kk-logo {
+
+            color: #dcebdd;
+        }
+
+
+        body.dark-mode .kk-logo span {
+
+            color: #72c092;
+        }
+
+
+        body.dark-mode .kk-logo-icon {
+
+            background: #263c2d;
+        }
+
+
+        body.dark-mode .kk-nav > a {
+
+            color: #aebdb3;
+        }
+
+
+        body.dark-mode .kk-nav > a:hover,
+        body.dark-mode .kk-nav > a.active {
+
+            color: #76c595;
+        }
+
+
+        body.dark-mode .profile-button {
+
+            background: #2b4032;
+
+            color: #dcebdd;
+        }
+
+
+        body.dark-mode .profile-dropdown {
+
+            background: #1a281f;
+
+            border-color: #34483a;
+
+            box-shadow:
+                0 15px 35px rgba(0,0,0,0.45);
+        }
+
+
+        body.dark-mode .profile-title strong {
+
+            color: #e1eee4;
+        }
+
+
+        body.dark-mode .profile-title small {
+
+            color: #95a69b;
+        }
+
+
+        body.dark-mode .profile-big-icon {
+
+            background: #2c4333;
+        }
+
+
+        body.dark-mode .dropdown-divider {
+
+            background: #34463a;
+        }
+
+
+        body.dark-mode .profile-option {
+
+            color: #c1cdc5;
+        }
+
+
+        body.dark-mode .profile-option:hover {
+
+            background: #26392c;
+
+            color: #e7f1e9;
+        }
+
+
+        body.dark-mode .settings-title {
+
+            color: #899a90;
+        }
+
+
+        body.dark-mode .setting-status {
+
+            color: #84968a;
+        }
+
+
+        body.dark-mode .hero-box {
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #1d3527,
+                    #243b2d,
+                    #1b3325
+                );
+        }
+
+
+        body.dark-mode .hero h1 {
+
+            color: #e0eee3;
+        }
+
+
+        body.dark-mode .hero h1 span {
+
+            color: #7bc497;
+        }
+
+
+        body.dark-mode .hero-description {
+
+            color: #afbeb4;
+        }
+
+
+        body.dark-mode .hero-secondary {
+
+            background: #1b281f;
+
+            color: #c9d8cd;
+
+            border-color: #405244;
+        }
+
+
+        body.dark-mode .hero-decoration {
+
+            background: #263a2c;
+        }
+
+
+        body.dark-mode .section-heading h2 {
+
+            color: #dcebdd;
+        }
+
+
+        body.dark-mode .section-heading p {
+
+            color: #8e9d94;
+        }
+
+
+        body.dark-mode .quick-card {
+
+            background: #18231c;
+
+            border-color: #2c3c31;
+        }
+
+
+        body.dark-mode .quick-card h3 {
+
+            color: #dcebdd;
+        }
+
+
+        body.dark-mode .quick-card p {
+
+            color: #9baa9f;
+        }
+
+
+        body.dark-mode .quick-icon {
+
+            background: #273d2d;
+        }
+
+
+        body.dark-mode .popular-card {
+
+            background: #18231c;
+
+            border-color: #2c3c31;
+        }
+
+
+        body.dark-mode .popular-content h3 {
+
+            color: #dcebdd;
+        }
+
+
+        body.dark-mode .popular-content p {
+
+            color: #9baa9f;
+        }
+
+
+        body.dark-mode .popular-meta {
+
+            color: #8f9f95;
+        }
+
+
+        body.dark-mode .popular-image {
+
+            background: #263b2c;
+        }
+
+
+        body.dark-mode .popular-heart {
+
+            background: #e9eee9;
+        }
+
+
+        body.dark-mode .kk-footer {
+
+            background: #0a110d;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .hero-content {
+                width: 65%;
+            }
+
+
+            .hero-decoration {
+
+                right: -50px;
+
+                opacity: 0.7;
+            }
+
+
+            .meal-grid {
+
+                grid-template-columns: repeat(2,1fr);
+            }
+
+
+            .popular-grid {
+
+                grid-template-columns: repeat(2,1fr);
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .kk-header {
+
+                height: auto;
+
+                padding: 15px 5%;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+
+            .kk-nav {
+
+                gap: 14px;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+
+            .kk-nav > a {
+
+                font-size: 12px;
+            }
+
+
+            .profile-dropdown {
+
+                position: fixed;
+
+                top: 120px;
+
+                right: 15px;
+
+                width: 280px;
+            }
+
+
+            .hero {
+
+                margin-top: 20px;
+
+                padding: 0 15px;
+            }
+
+
+            .hero-box {
+
+                min-height: 520px;
+
+                padding: 35px 25px;
+
+                align-items: flex-start;
+            }
+
+
+            .hero-content {
+
+                width: 100%;
+            }
+
+
+            .hero h1 {
+
+                font-size: 42px;
+            }
+
+
+            .hero-decoration {
+
+                width: 180px;
+
+                height: 180px;
+
+                font-size: 80px;
+
+                right: 20px;
+
+                bottom: -30px;
+
+                top: auto;
+
+                transform: none;
+            }
+
+
+            .quick-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .meal-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .popular-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .section {
+
+                padding: 0 18px;
+            }
+
+
+            .section-heading {
+
+                align-items: flex-start;
+
+                gap: 10px;
+            }
+
+
+            .section-heading h2 {
+
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="kk-header">
+
+
+    <!-- LOGO -->
+
+    <a
+        href="home.html"
+        class="kk-logo"
+    >
+
+        <div class="kk-logo-icon">
+            👨‍🍳
+        </div>
+
+        Kitchen <span>Kraft</span>
+
+    </a>
+
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="kk-nav">
+
+        <a
+            href="home.html"
+            class="active"
+        >
+            Home
+        </a>
+
+
+        <a href="ingredient.html">
+            My Kitchen
+        </a>
+
+
+        <a href="matches.html">
+            Recipes
+        </a>
+
+
+        <!-- YOUR ACTUAL FILE IS favorite.html -->
+
+        <a href="favorite.html">
+            Favorites
+        </a>
+
+
+        <a
+            href="favorite.html"
+            class="kk-heart"
+            title="Favorites"
+        >
+            ♡
+        </a>
+
+
+        <!-- PROFILE -->
+
+        <div class="profile-menu">
+
+
+            <button
+                type="button"
+                class="profile-button"
+                onclick="toggleProfileMenu()"
+                aria-label="Open settings"
+            >
+                👤
+            </button>
+
+
+            <!-- DROPDOWN -->
+
+            <div
+                class="profile-dropdown"
+                id="profileDropdown"
+            >
+
+
+                <!-- PROFILE -->
+
+                <div class="profile-title">
+
+                    <div class="profile-big-icon">
+                        👤
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Kitchen Kraft
+                        </strong>
+
+                        <small>
+                            My Account
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="dropdown-divider"></div>
+
+
+
+                <!-- FAVORITES -->
+
+                <a
+                    href="favorite.html"
+                    class="profile-option"
+                >
+
+                    <span class="profile-option-icon">
+                        ❤️
+                    </span>
+
+                    <span>
+                        Favorites
+                    </span>
+
+                </a>
+
+
+
+                <div class="dropdown-divider"></div>
+
+
+
+                <!-- SETTINGS TITLE -->
+
+                <div class="settings-title">
+                    Settings
+                </div>
+
+
+
+                <!-- NOTIFICATIONS -->
+
+                <div class="profile-option setting-row">
+
+                    <span class="profile-option-icon">
+                        🔔
+                    </span>
+
+
+                    <span class="setting-name">
+                        Notifications
+                    </span>
+
+
+                    <span
+                        class="setting-status"
+                        id="notificationStatus"
+                    >
+                        ON
+                    </span>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="notificationToggle"
+                            checked
+                            onchange="toggleNotifications()"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+
+                <!-- DARK MODE -->
+
+                <div class="profile-option setting-row">
+
+                    <span class="profile-option-icon">
+                        🌙
+                    </span>
+
+
+                    <span class="setting-name">
+                        Dark Mode
+                    </span>
+
+
+                    <span
+                        class="setting-status"
+                        id="themeStatus"
+                    >
+                        OFF
+                    </span>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="themeToggle"
+                            onchange="toggleTheme()"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="dropdown-divider"></div>
+
+
+
+                <!-- LOGOUT -->
+
+                <button
+                    type="button"
+                    class="profile-option logout-button"
+                    onclick="logoutFromHome()"
+                >
+
+                    <span class="profile-option-icon">
+                        🚪
+                    </span>
+
+                    <span>
+                        Logout
+                    </span>
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-box">
+
+
+        <div class="hero-content">
+
+
+            <div class="hero-small">
+
+                Your kitchen. Your ingredients.
+                Your recipes.
+
+            </div>
+
+
+            <h1>
+
+                What's in your
+                <span>kitchen</span>
+                today?
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                Tell us what ingredients you have at home
+                and we'll help you discover delicious recipes
+                you can make right now.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+
+                <a
+                    href="ingredient.html"
+                    class="hero-primary"
+                >
+                    FIND WHAT I CAN COOK →
+                </a>
+
+
+                <a
+                    href="matches.html"
+                    class="hero-secondary"
+                >
+                    Browse Recipes
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-decoration">
+            🍲
+        </div>
+
+
+        <div class="leaf-one">
+            🌿
+        </div>
+
+
+        <div class="leaf-two">
+            🌿
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     QUICK START
+===================================================== -->
+
+<section class="section">
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <h2>
+                Start Cooking
+            </h2>
+
+            <p>
+                Everything you need to make your next meal.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="quick-grid">
+
+
+        <a
+            href="ingredient.html"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                🧺
+            </div>
+
+            <h3>
+                My Kitchen
+            </h3>
+
+            <p>
+                Select the ingredients you already
+                have at home.
+            </p>
+
+            <div class="quick-arrow">
+                →
+            </div>
+
+        </a>
+
+
+
+        <a
+            href="matches.html"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                🍽️
+            </div>
+
+            <h3>
+                Browse Recipes
+            </h3>
+
+            <p>
+                Explore delicious recipes for
+                every occasion.
+            </p>
+
+            <div class="quick-arrow">
+                →
+            </div>
+
+        </a>
+
+
+
+        <a
+            href="favorite.html"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                ❤️
+            </div>
+
+            <h3>
+                My Favorites
+            </h3>
+
+            <p>
+                Quickly access recipes you
+                saved for later.
+            </p>
+
+            <div class="quick-arrow">
+                →
+            </div>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MEAL CATEGORIES
+===================================================== -->
+
+<section class="section">
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <h2>
+                What are you craving?
+            </h2>
+
+            <p>
+                Find recipes based on the time of day.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="meal-grid">
+
+
+        <a
+            href="ingredient.html?meal=breakfast"
+            class="meal-card breakfast"
+        >
+
+            <div class="meal-emoji">
+                🍳
+            </div>
+
+            <h3>
+                Breakfast
+            </h3>
+
+            <p>
+                Start your day right
+            </p>
+
+        </a>
+
+
+
+        <a
+            href="ingredient.html?meal=lunch"
+            class="meal-card lunch"
+        >
+
+            <div class="meal-emoji">
+                🍛
+            </div>
+
+            <h3>
+                Lunch
+            </h3>
+
+            <p>
+                Delicious midday meals
+            </p>
+
+        </a>
+
+
+
+        <a
+            href="ingredient.html?meal=dinner"
+            class="meal-card dinner"
+        >
+
+            <div class="meal-emoji">
+                🍲
+            </div>
+
+            <h3>
+                Dinner
+            </h3>
+
+            <p>
+                Comfort food for tonight
+            </p>
+
+        </a>
+
+
+
+        <a
+            href="matches.html"
+            class="meal-card dessert"
+        >
+
+            <div class="meal-emoji">
+                🍰
+            </div>
+
+            <h3>
+                Desserts
+            </h3>
+
+            <p>
+                Something sweet
+            </p>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     POPULAR TODAY
+===================================================== -->
+
+<section class="section">
+
+
+    <div class="section-heading">
+
+
+        <div>
+
+            <h2>
+                Popular Today
+            </h2>
+
+            <p>
+                Recipes people are cooking right now.
+            </p>
+
+        </div>
+
+
+        <a
+            href="matches.html"
+            class="view-all"
+        >
+            View all →
+        </a>
+
+
+    </div>
+
+
+    <div class="popular-grid">
+
+
+        <!-- TOMATO RICE -->
+
+        <a
+            href="recipe.html?recipe=tomato-rice"
+            class="popular-card"
+        >
+
+            <div class="popular-image">
+
+                🍅
+
+                <div class="popular-heart">
+                    ♡
+                </div>
+
+            </div>
+
+
+            <div class="popular-content">
+
+                <h3>
+                    Tomato Rice
+                </h3>
+
+                <p>
+                    Simple, flavorful and comforting.
+                </p>
+
+
+                <div class="popular-meta">
+
+                    <span>
+                        ⏱ 30 min
+                    </span>
+
+                    <span>
+                        🌱 Vegetarian
+                    </span>
+
+                </div>
+
+
+                <span class="popular-link">
+                    View Recipe →
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- RAGI DOSA -->
+
+        <a
+            href="recipe.html?recipe=ragi-dosa"
+            class="popular-card"
+        >
+
+            <div class="popular-image">
+
+                🥞
+
+                <div class="popular-heart">
+                    ♡
+                </div>
+
+            </div>
+
+
+            <div class="popular-content">
+
+                <h3>
+                    Ragi Dosa
+                </h3>
+
+                <p>
+                    Crispy and healthy South Indian breakfast.
+                </p>
+
+
+                <div class="popular-meta">
+
+                    <span>
+                        ⏱ 20 min
+                    </span>
+
+                    <span>
+                        🌱 Vegetarian
+                    </span>
+
+                </div>
+
+
+                <span class="popular-link">
+                    View Recipe →
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- PANEER CURRY -->
+
+        <a
+            href="recipe.html?recipe=paneer-curry"
+            class="popular-card"
+        >
+
+            <div class="popular-image">
+
+                🧀
+
+                <div class="popular-heart">
+                    ♡
+                </div>
+
+            </div>
+
+
+            <div class="popular-content">
+
+                <h3>
+                    Paneer Curry
+                </h3>
+
+                <p>
+                    Creamy, spicy and rich.
+                </p>
+
+
+                <div class="popular-meta">
+
+                    <span>
+                        ⏱ 30 min
+                    </span>
+
+                    <span>
+                        🌱 Vegetarian
+                    </span>
+
+                </div>
+
+
+                <span class="popular-link">
+                    View Recipe →
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- BANANA SMOOTHIE -->
+
+        <a
+            href="recipe.html?recipe=banana-smoothie"
+            class="popular-card"
+        >
+
+            <div class="popular-image">
+
+                🍌
+
+                <div class="popular-heart">
+                    ♡
+                </div>
+
+            </div>
+
+
+            <div class="popular-content">
+
+                <h3>
+                    Banana Smoothie
+                </h3>
+
+                <p>
+                    Fresh, healthy and quick.
+                </p>
+
+
+                <div class="popular-meta">
+
+                    <span>
+                        ⏱ 10 min
+                    </span>
+
+                    <span>
+                        🥤 Healthy
+                    </span>
+
+                </div>
+
+
+                <span class="popular-link">
+                    View Recipe →
+                </span>
+
+            </div>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="kk-footer">
+
+    <h2>
+        👨‍🍳 Kitchen Kraft
+    </h2>
+
+    <p>
+        Cook More With What You Have.
+    </p>
+
+</footer>
+
+
+
+<script>
+
+    /* =====================================================
+       PROFILE MENU
+    ===================================================== */
+
+    function toggleProfileMenu() {
+
+        const menu =
+            document.getElementById("profileDropdown");
+
+        menu.classList.toggle("show");
+    }
+
+
+    /* CLOSE WHEN CLICKING OUTSIDE */
+
+    document.addEventListener("click", function(event) {
+
+        const profileMenu =
+            document.querySelector(".profile-menu");
+
+        const dropdown =
+            document.getElementById("profileDropdown");
+
+
+        if (
+            profileMenu &&
+            !profileMenu.contains(event.target)
+        ) {
+
+            dropdown.classList.remove("show");
+        }
+
+    });
+
+
+
+    /* =====================================================
+       NOTIFICATIONS
+    ===================================================== */
+
+    function loadNotificationSetting() {
+
+        const saved =
+            localStorage.getItem(
+                "kitchenKraftNotifications"
+            );
+
+
+        const toggle =
+            document.getElementById(
+                "notificationToggle"
+            );
+
+
+        const status =
+            document.getElementById(
+                "notificationStatus"
+            );
+
+
+        if (saved === "off") {
+
+            toggle.checked = false;
+
+            status.textContent = "OFF";
+
+        } else {
+
+            toggle.checked = true;
+
+            status.textContent = "ON";
+        }
+
+    }
+
+
+    function toggleNotifications() {
+
+        const toggle =
+            document.getElementById(
+                "notificationToggle"
+            );
+
+
+        const status =
+            document.getElementById(
+                "notificationStatus"
+            );
+
+
+        if (toggle.checked) {
+
+            localStorage.setItem(
+                "kitchenKraftNotifications",
+                "on"
+            );
+
+            status.textContent = "ON";
+
+        } else {
+
+            localStorage.setItem(
+                "kitchenKraftNotifications",
+                "off"
+            );
+
+            status.textContent = "OFF";
+        }
+
+    }
+
+
+
+    /* =====================================================
+       DARK / LIGHT THEME
+    ===================================================== */
+
+    function loadTheme() {
+
+        const savedTheme =
+            localStorage.getItem(
+                "kitchenKraftTheme"
+            );
+
+
+        const toggle =
+            document.getElementById(
+                "themeToggle"
+            );
+
+
+        const status =
+            document.getElementById(
+                "themeStatus"
+            );
+
+
+        if (savedTheme === "dark") {
+
+            document.body.classList.add(
+                "dark-mode"
+            );
+
+            toggle.checked = true;
+
+            status.textContent = "ON";
+
+        } else {
+
+            document.body.classList.remove(
+                "dark-mode"
+            );
+
+            toggle.checked = false;
+
+            status.textContent = "OFF";
+        }
+
+    }
+
+
+    function toggleTheme() {
+
+        const toggle =
+            document.getElementById(
+                "themeToggle"
+            );
+
+
+        const status =
+            document.getElementById(
+                "themeStatus"
+            );
+
+
+        if (toggle.checked) {
+
+            document.body.classList.add(
+                "dark-mode"
+            );
+
+            localStorage.setItem(
+                "kitchenKraftTheme",
+                "dark"
+            );
+
+            status.textContent = "ON";
+
+        } else {
+
+            document.body.classList.remove(
+                "dark-mode"
+            );
+
+            localStorage.setItem(
+                "kitchenKraftTheme",
+                "light"
+            );
+
+            status.textContent = "OFF";
+        }
+
+    }
+
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    function logoutFromHome() {
+
+        localStorage.removeItem(
+            "kitchenKraftLoggedIn"
+        );
+
+        window.location.href =
+            "index.html";
+    }
+
+
+
+    /* =====================================================
+       LOAD SETTINGS WHEN PAGE OPENS
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            loadNotificationSetting();
+
+            loadTheme();
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

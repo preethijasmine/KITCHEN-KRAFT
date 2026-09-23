@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Kitchen Kraft - Sign Up</title>
+
+    <link rel="stylesheet" href="CSS/style.css">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    #dcebd2 0%,
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    #d8e8ce 0%,
+                    transparent 25%
+                ),
+                #edf2e7;
+
+            font-family: Arial, sans-serif;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 35px;
+        }
+
+
+        /* =================================
+           COOKBOOK
+        ================================= */
+
+        .cookbook {
+            width: min(1100px, 96vw);
+
+            min-height: 680px;
+
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            background: #f8f5e9;
+
+            border: 12px solid #1d543b;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 55px rgba(27,65,45,0.25);
+
+        }
+
+
+        .book-spine {
+            position: absolute;
+
+            left: 50%;
+
+            top: 0;
+            bottom: 0;
+
+            width: 4px;
+
+            background:
+                linear-gradient(
+                    to right,
+                    #c9c2ad,
+                    #fffdf4,
+                    #c9c2ad
+                );
+
+            transform: translateX(-50%);
+
+            z-index: 8;
+        }
+
+
+        .bookmark {
+            position: absolute;
+
+            bottom: -1px;
+
+            left: 50%;
+
+            width: 32px;
+
+            height: 75px;
+
+            background: #226a45;
+
+            z-index: 20;
+
+            transform: translateX(-50%);
+
+            clip-path: polygon(
+                0 0,
+                100% 0,
+                100% 100%,
+                50% 82%,
+                0 100%
+            );
+        }
+
+
+        /* =================================
+           LEFT PAGE
+        ================================= */
+
+        .book-left {
+
+            position: relative;
+
+            min-height: 680px;
+
+            padding: 50px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #eee9d9,
+                    #fffdf4 12%,
+                    #fffdf7 90%,
+                    #eee9d9
+                );
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            overflow: hidden;
+        }
+
+
+        .page-leaf {
+
+            position: absolute;
+
+            color: #477b55;
+
+            font-size: 42px;
+
+            opacity: 0.75;
+        }
+
+
+        .leaf-top-left {
+            top: 25px;
+            left: 25px;
+        }
+
+
+        .leaf-top-right {
+            top: 35px;
+            right: 25px;
+
+            transform: rotate(25deg);
+        }
+
+
+        .leaf-bottom-left {
+            bottom: 30px;
+            left: 25px;
+
+            transform: rotate(-45deg);
+        }
+
+
+        .leaf-bottom-right {
+            bottom: 25px;
+            right: 30px;
+
+            transform: rotate(35deg);
+        }
+
+
+        .chef-icon {
+
+            width: 90px;
+            height: 90px;
+
+            border-radius: 50%;
+
+            background: #e2ecd9;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 48px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 7px 18px rgba(46,88,57,0.12);
+        }
+
+
+        .brand-name {
+
+            margin: 0;
+
+            color: #145737;
+
+            font-family:
+                "Brush Script MT",
+                "Segoe Script",
+                cursive;
+
+            font-size: clamp(58px,7vw,88px);
+
+            font-weight: 700;
+
+            line-height: 0.85;
+
+            letter-spacing: -3px;
+
+            transform: rotate(-2deg);
+
+            text-shadow:
+                1px 2px 0 #d7e3cd;
+        }
+
+
+        .brand-name span {
+
+            display: block;
+
+            font-size: 0.8em;
+
+            margin-left: 65px;
+        }
+
+
+        .tagline {
+
+            margin-top: 25px;
+
+            color: #315c43;
+
+            font-family: Georgia, serif;
+
+            font-size: 16px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .little-line {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin: 22px 0;
+
+            color: #36714b;
+        }
+
+
+        .little-line::before,
+        .little-line::after {
+
+            content: "";
+
+            width: 55px;
+
+            height: 1px;
+
+            background: #568160;
+        }
+
+
+        .brand-message {
+
+            color: #477054;
+
+            font-family:
+                "Brush Script MT",
+                "Segoe Script",
+                cursive;
+
+            font-size: 28px;
+
+            line-height: 1.2;
+
+            transform: rotate(-2deg);
+        }
+
+
+        .kitchen-decor {
+
+            position: absolute;
+
+            bottom: 20px;
+
+            left: 30px;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 8px;
+
+            font-size: 42px;
+        }
+
+
+        .kitchen-decor span:nth-child(2) {
+            font-size: 55px;
+        }
+
+
+        .kitchen-decor span:nth-child(3) {
+            font-size: 35px;
+        }
+
+
+        /* =================================
+           RIGHT PAGE
+        ================================= */
+
+        .book-right {
+
+            position: relative;
+
+            min-height: 680px;
+
+            padding: 50px 65px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #f0ecdf,
+                    #fffdf7 10%,
+                    #fffdf7 90%,
+                    #eee9d9
+                );
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+
+        .book-right h1 {
+
+            margin: 0;
+
+            text-align: center;
+
+            color: #165b3b;
+
+            font-family: Georgia, serif;
+
+            font-size: 40px;
+        }
+
+
+        .book-right-subtitle {
+
+            text-align: center;
+
+            color: #6b796f;
+
+            font-size: 14px;
+
+            margin: 10px auto 27px;
+        }
+
+
+        /* INPUTS */
+
+        .signup-input {
+
+            width: 100%;
+
+            height: 53px;
+
+            border: 1.5px solid #9eaf9a;
+
+            border-radius: 30px;
+
+            background: rgba(255,255,255,0.6);
+
+            padding: 0 20px;
+
+            margin-bottom: 13px;
+
+            outline: none;
+
+            color: #244637;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+
+        .signup-input:focus {
+
+            border-color: #246a46;
+
+            box-shadow:
+                0 0 0 3px rgba(36,106,70,0.09);
+        }
+
+
+        .signup-input::placeholder {
+            color: #7d897f;
+        }
+
+
+        /* TERMS */
+
+        .terms {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #6e7972;
+
+            font-size: 12px;
+
+            margin: 3px 5px 20px;
+        }
+
+
+        .terms input {
+            accent-color: #246a46;
+        }
+
+
+        /* BUTTON */
+
+        .signup-button {
+
+            width: 100%;
+
+            height: 56px;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background: #236b45;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            box-shadow:
+                0 8px 18px rgba(35,107,69,0.2);
+        }
+
+
+        .signup-button:hover {
+
+            background: #174f34;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* LOGIN */
+
+        .login-text {
+
+            text-align: center;
+
+            color: #6e7972;
+
+            font-size: 14px;
+
+            margin-top: 23px;
+        }
+
+
+        .login-link {
+
+            color: #165b3b;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .cookbook {
+
+                grid-template-columns: 1fr;
+
+                min-height: auto;
+
+                border-width: 7px;
+            }
+
+            .book-spine {
+                display: none;
+            }
+
+            .book-left {
+
+                min-height: 390px;
+
+                padding: 35px 25px;
+            }
+
+            .book-right {
+
+                min-height: 540px;
+
+                padding: 40px 25px;
+            }
+
+            .brand-name {
+                font-size: 60px;
+            }
+
+            .brand-name span {
+                margin-left: 35px;
+            }
+
+            .bookmark {
+                display: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="cookbook">
+
+    <div class="book-spine"></div>
+
+    <div class="bookmark"></div>
+
+
+    <!-- LEFT BOOK PAGE -->
+
+    <section class="book-left">
+
+        <div class="page-leaf leaf-top-left">
+            🌿
+        </div>
+
+        <div class="page-leaf leaf-top-right">
+            🍃
+        </div>
+
+        <div class="page-leaf leaf-bottom-left">
+            🌿
+        </div>
+
+        <div class="page-leaf leaf-bottom-right">
+            🍃
+        </div>
+
+
+        <div class="chef-icon">
+            👨‍🍳
+        </div>
+
+
+        <h2 class="brand-name">
+            Kitchen
+            <span>Kraft</span>
+        </h2>
+
+
+        <p class="tagline">
+            Cook More With What You Have.
+        </p>
+
+
+        <div class="little-line">
+            ♥
+        </div>
+
+
+        <div class="brand-message">
+            Good Food<br>
+            Brings People Together
+        </div>
+
+
+        <div class="kitchen-decor">
+
+            <span>🥬</span>
+            <span>🥄</span>
+            <span>🌿</span>
+            <span>🧄</span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- RIGHT BOOK PAGE -->
+
+    <section class="book-right">
+
+        <h1>
+            Create Account
+        </h1>
+
+
+        <p class="book-right-subtitle">
+            Join Kitchen Kraft and start<br>
+            your cooking journey.
+        </p>
+
+
+        <!-- SAME IDs AS YOUR ORIGINAL -->
+
+        <input
+            type="text"
+            id="signupName"
+            class="signup-input"
+            placeholder="Full Name"
+        >
+
+
+        <input
+            type="email"
+            id="signupEmail"
+            class="signup-input"
+            placeholder="Email Address"
+        >
+
+
+        <input
+            type="password"
+            id="signupPassword"
+            class="signup-input"
+            placeholder="Password"
+        >
+
+
+        <input
+            type="password"
+            id="confirmPassword"
+            class="signup-input"
+            placeholder="Confirm Password"
+        >
+
+
+        <label class="terms">
+
+            <input
+                type="checkbox"
+                id="terms"
+            >
+
+            <span>
+                I agree to the Terms & Conditions
+            </span>
+
+        </label>
+
+
+        <!-- SAME FUNCTION -->
+
+        <button
+            class="signup-button"
+            type="button"
+            onclick="goToHome()"
+        >
+            Create Account&nbsp;&nbsp; →
+        </button>
+
+
+        <!-- SAME LOGIN LINK -->
+
+        <p class="login-text">
+
+            Already have an account?
+
+            <a
+                href="./index.html"
+                class="login-link"
+            >
+                Login
+            </a>
+
+        </p>
+
+    </section>
+
+</div>
+
+
+<script src="JS/script.js"></script>
+
+</body>
+
+</html>

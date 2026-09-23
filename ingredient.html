@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kitchen Kraft - My Kitchen</title>
+
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+        /* ===============================
+           MY KITCHEN PAGE
+           =============================== */
+
+        .kitchen-page {
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px 25px 120px;
+        }
+
+        .kitchen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .kitchen-header h1 {
+            color: #164f3b;
+            font-family: Georgia, serif;
+            font-size: 34px;
+            margin: 0 0 8px;
+        }
+
+        .kitchen-header p {
+            color: #68736b;
+            margin: 0;
+        }
+
+        .selected-count {
+            background: #e5f1dd;
+            color: #08734f;
+            padding: 12px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* SEARCH */
+
+        .ingredient-search {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            background: white;
+            padding: 0 18px;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 25px;
+        }
+
+        .ingredient-search:focus {
+            border-color: #08734f;
+        }
+
+        /* MEAL FILTER */
+
+        .meal-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .meal-filter button {
+            border: 1px solid #d9ded6;
+            background: white;
+            color: #476052;
+            padding: 10px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+        }
+
+        .meal-filter button.active,
+        .meal-filter button:hover {
+            background: #08734f;
+            color: white;
+            border-color: #08734f;
+        }
+
+        /* CATEGORY */
+
+        .ingredient-category {
+            margin-bottom: 35px;
+        }
+
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .category-title h2 {
+            color: #164f3b;
+            font-family: Georgia, serif;
+            font-size: 23px;
+            margin: 0;
+        }
+
+        .category-title span {
+            font-size: 27px;
+        }
+
+        /* INGREDIENT GRID */
+
+        .ingredients-list {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+
+        .ingredient-item {
+            min-height: 105px;
+            background: white;
+            border: 1px solid #e1e3dc;
+            border-radius: 16px;
+            padding: 15px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .ingredient-item:hover {
+            transform: translateY(-3px);
+            border-color: #91ae8d;
+            box-shadow: 0 5px 15px rgba(40, 70, 45, 0.08);
+        }
+
+        .ingredient-item.selected {
+            background: #e8f3df;
+            border: 2px solid #08734f;
+        }
+
+        .ingredient-icon {
+            width: 50px;
+            height: 50px;
+            background: #f5f5eb;
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .ingredient-name {
+            color: #294d3d;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .check-mark {
+            display: none;
+
+            position: absolute;
+            top: 8px;
+            right: 8px;
+
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+
+            background: #08734f;
+            color: white;
+
+            font-size: 13px;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ingredient-item.selected .check-mark {
+            display: flex;
+        }
+
+        /* BOTTOM BAR */
+
+        .selection-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            background: white;
+            border-top: 1px solid #ddd;
+
+            padding: 15px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            z-index: 500;
+
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.08);
+        }
+
+        .selection-info strong {
+            color: #08734f;
+        }
+
+        .find-button {
+            border: none;
+            background: #08734f;
+            color: white;
+
+            padding: 14px 25px;
+            border-radius: 25px;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .find-button:hover {
+            background: #055b3e;
+        }
+
+        .clear-button {
+            border: none;
+            background: transparent;
+            color: #a35c4d;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        /* EMPTY SEARCH */
+
+        .no-results {
+            display: none;
+            text-align: center;
+            color: #777;
+            padding: 30px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+
+            .ingredients-list {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+        }
+
+        @media (max-width: 750px) {
+
+            .ingredients-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .kitchen-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .kitchen-page {
+                padding: 25px 15px 125px;
+            }
+
+            .ingredients-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .ingredient-item {
+                min-height: 100px;
+            }
+
+            .selection-bar {
+                padding: 12px 15px;
+            }
+
+            .selection-info {
+                font-size: 13px;
+            }
+
+            .find-button {
+                padding: 12px 15px;
+                font-size: 12px;
+            }
+
+            .clear-button {
+                display: none;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo">
+
+        <span>👨‍🍳</span>
+
+        Kitchen <b>Kraft</b>
+
+    </div>
+
+
+    <nav>
+
+        <a href="home.html">
+            Home
+        </a>
+
+        <a href="ingredient.html">
+            My Kitchen
+        </a>
+
+        <a href="matches.html">
+            Recipes
+        </a>
+
+        <a href="favorites.html">
+            Favorites
+        </a>
+
+        <button
+            class="logout"
+            onclick="logoutUser()">
+
+            Logout
+
+        </button>
+
+    </nav>
+
+</header>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="kitchen-page">
+
+
+    <div class="kitchen-header">
+
+        <div>
+
+            <h1>
+                What's in your kitchen?
+            </h1>
+
+            <p>
+                Select the ingredients you already have.
+                We'll find recipes you can make.
+            </p>
+
+        </div>
+
+
+        <div class="selected-count">
+
+            <span id="selectedCount">
+                0
+            </span>
+
+            ingredients selected
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SEARCH -->
+
+    <input
+        type="text"
+        id="ingredientSearch"
+        class="ingredient-search"
+        placeholder="🔍 Search ingredients..."
+        oninput="searchIngredients()">
+
+
+
+    <!-- MEAL FILTER -->
+
+    <div class="meal-filter">
+
+        <button
+            class="active"
+            onclick="filterMeal('all', this)">
+
+            All
+
+        </button>
+
+        <button
+            onclick="filterMeal('breakfast', this)">
+
+            ☀️ Breakfast
+
+        </button>
+
+        <button
+            onclick="filterMeal('lunch', this)">
+
+            🍛 Lunch
+
+        </button>
+
+        <button
+            onclick="filterMeal('dinner', this)">
+
+            🌙 Dinner
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+         DAIRY
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🥛</span>
+
+            <h2>
+                Dairy
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Milk" data-meal="all">
+                <div class="ingredient-icon">🥛</div>
+                <div class="ingredient-name">Milk</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Curd" data-meal="all">
+                <div class="ingredient-icon">🥣</div>
+                <div class="ingredient-name">Curd</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Paneer" data-meal="all">
+                <div class="ingredient-icon">🧀</div>
+                <div class="ingredient-name">Paneer</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Butter" data-meal="all">
+                <div class="ingredient-icon">🧈</div>
+                <div class="ingredient-name">Butter</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Cheese" data-meal="breakfast">
+                <div class="ingredient-icon">🧀</div>
+                <div class="ingredient-name">Cheese</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         VEGETABLES
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🥕</span>
+
+            <h2>
+                Vegetables
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Onion" data-meal="all">
+                <div class="ingredient-icon">🧅</div>
+                <div class="ingredient-name">Onion</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Tomato" data-meal="all">
+                <div class="ingredient-icon">🍅</div>
+                <div class="ingredient-name">Tomato</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Potato" data-meal="all">
+                <div class="ingredient-icon">🥔</div>
+                <div class="ingredient-name">Potato</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Carrot" data-meal="all">
+                <div class="ingredient-icon">🥕</div>
+                <div class="ingredient-name">Carrot</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Cabbage" data-meal="lunch">
+                <div class="ingredient-icon">🥬</div>
+                <div class="ingredient-name">Cabbage</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Spinach" data-meal="lunch">
+                <div class="ingredient-icon">🌿</div>
+                <div class="ingredient-name">Spinach</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Capsicum" data-meal="all">
+                <div class="ingredient-icon">🫑</div>
+                <div class="ingredient-name">Capsicum</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Green Peas" data-meal="all">
+                <div class="ingredient-icon">🫛</div>
+                <div class="ingredient-name">Green Peas</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Cauliflower" data-meal="lunch">
+                <div class="ingredient-icon">🥦</div>
+                <div class="ingredient-name">Cauliflower</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Brinjal" data-meal="lunch">
+                <div class="ingredient-icon">🍆</div>
+                <div class="ingredient-name">Brinjal</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         FRUITS
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🍎</span>
+
+            <h2>
+                Fruits
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Apple" data-meal="breakfast">
+                <div class="ingredient-icon">🍎</div>
+                <div class="ingredient-name">Apple</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Banana" data-meal="breakfast">
+                <div class="ingredient-icon">🍌</div>
+                <div class="ingredient-name">Banana</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Mango" data-meal="all">
+                <div class="ingredient-icon">🥭</div>
+                <div class="ingredient-name">Mango</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Orange" data-meal="breakfast">
+                <div class="ingredient-icon">🍊</div>
+                <div class="ingredient-name">Orange</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Pineapple" data-meal="all">
+                <div class="ingredient-icon">🍍</div>
+                <div class="ingredient-name">Pineapple</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CEREALS
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🌾</span>
+
+            <h2>
+                Cereals & Staples
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Rice" data-meal="all">
+                <div class="ingredient-icon">🍚</div>
+                <div class="ingredient-name">Rice</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Basmati Rice" data-meal="lunch">
+                <div class="ingredient-icon">🍚</div>
+                <div class="ingredient-name">Basmati Rice</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Wheat" data-meal="all">
+                <div class="ingredient-icon">🌾</div>
+                <div class="ingredient-name">Wheat</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Ragi" data-meal="breakfast">
+                <div class="ingredient-icon">🌾</div>
+                <div class="ingredient-name">Ragi</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Oats" data-meal="breakfast">
+                <div class="ingredient-icon">🥣</div>
+                <div class="ingredient-name">Oats</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Poha" data-meal="breakfast">
+                <div class="ingredient-icon">🍚</div>
+                <div class="ingredient-name">Poha</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Vermicelli" data-meal="breakfast">
+                <div class="ingredient-icon">🍜</div>
+                <div class="ingredient-name">Vermicelli</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         FLOUR
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🌾</span>
+
+            <h2>
+                Flour & Rava
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Wheat Flour" data-meal="all">
+                <div class="ingredient-icon">🌾</div>
+                <div class="ingredient-name">Wheat Flour</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Maida" data-meal="all">
+                <div class="ingredient-icon">🌾</div>
+                <div class="ingredient-name">Maida</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Besan" data-meal="all">
+                <div class="ingredient-icon">🌾</div>
+                <div class="ingredient-name">Besan</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Rava" data-meal="breakfast">
+                <div class="ingredient-icon">🥣</div>
+                <div class="ingredient-name">Rava</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Rice Flour" data-meal="all">
+                <div class="ingredient-icon">🌾</div>
+                <div class="ingredient-name">Rice Flour</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MEAT
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🍗</span>
+
+            <h2>
+                Meat
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Chicken" data-meal="lunch">
+                <div class="ingredient-icon">🍗</div>
+                <div class="ingredient-name">Chicken</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Mutton" data-meal="lunch">
+                <div class="ingredient-icon">🍖</div>
+                <div class="ingredient-name">Mutton</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Beef" data-meal="lunch">
+                <div class="ingredient-icon">🥩</div>
+                <div class="ingredient-name">Beef</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Pork" data-meal="dinner">
+                <div class="ingredient-icon">🥩</div>
+                <div class="ingredient-name">Pork</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         EGGS
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🥚</span>
+
+            <h2>
+                Eggs
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Egg" data-meal="breakfast">
+                <div class="ingredient-icon">🥚</div>
+                <div class="ingredient-name">Egg</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Boiled Egg" data-meal="breakfast">
+                <div class="ingredient-icon">🥚</div>
+                <div class="ingredient-name">Boiled Egg</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROTEIN
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>💪</span>
+
+            <h2>
+                Protein
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Tofu" data-meal="all">
+                <div class="ingredient-icon">🧊</div>
+                <div class="ingredient-name">Tofu</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Soya Chunks" data-meal="lunch">
+                <div class="ingredient-icon">🫘</div>
+                <div class="ingredient-name">Soya Chunks</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Peanuts" data-meal="all">
+                <div class="ingredient-icon">🥜</div>
+                <div class="ingredient-name">Peanuts</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PULSES
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🫘</span>
+
+            <h2>
+                Pulses & Legumes
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Toor Dal" data-meal="lunch">
+                <div class="ingredient-icon">🫘</div>
+                <div class="ingredient-name">Toor Dal</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Moong Dal" data-meal="all">
+                <div class="ingredient-icon">🫘</div>
+                <div class="ingredient-name">Moong Dal</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Masoor Dal" data-meal="all">
+                <div class="ingredient-icon">🫘</div>
+                <div class="ingredient-name">Masoor Dal</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Chana Dal" data-meal="lunch">
+                <div class="ingredient-icon">🫘</div>
+                <div class="ingredient-name">Chana Dal</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Chickpeas" data-meal="lunch">
+                <div class="ingredient-icon">🫘</div>
+                <div class="ingredient-name">Chickpeas</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Rajma" data-meal="lunch">
+                <div class="ingredient-icon">🫘</div>
+                <div class="ingredient-name">Rajma</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SPICES
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🌶️</span>
+
+            <h2>
+                Spices & Herbs
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Turmeric" data-meal="all">
+                <div class="ingredient-icon">🟡</div>
+                <div class="ingredient-name">Turmeric</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Chilli Powder" data-meal="all">
+                <div class="ingredient-icon">🌶️</div>
+                <div class="ingredient-name">Chilli Powder</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Garam Masala" data-meal="all">
+                <div class="ingredient-icon">🌶️</div>
+                <div class="ingredient-name">Garam Masala</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Cumin" data-meal="all">
+                <div class="ingredient-icon">🌿</div>
+                <div class="ingredient-name">Cumin</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Coriander" data-meal="all">
+                <div class="ingredient-icon">🌿</div>
+                <div class="ingredient-name">Coriander</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Ginger" data-meal="all">
+                <div class="ingredient-icon">🫚</div>
+                <div class="ingredient-name">Ginger</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Garlic" data-meal="all">
+                <div class="ingredient-icon">🧄</div>
+                <div class="ingredient-name">Garlic</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PANTRY
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🧂</span>
+
+            <h2>
+                Pantry
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Salt" data-meal="all">
+                <div class="ingredient-icon">🧂</div>
+                <div class="ingredient-name">Salt</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Sugar" data-meal="all">
+                <div class="ingredient-icon">🍬</div>
+                <div class="ingredient-name">Sugar</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Cooking Oil" data-meal="all">
+                <div class="ingredient-icon">🫗</div>
+                <div class="ingredient-name">Cooking Oil</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Coconut" data-meal="all">
+                <div class="ingredient-icon">🥥</div>
+                <div class="ingredient-name">Coconut</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Tamarind" data-meal="lunch">
+                <div class="ingredient-icon">🟤</div>
+                <div class="ingredient-name">Tamarind</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BAKERY
+         ================================================= -->
+
+    <section class="ingredient-category">
+
+        <div class="category-title">
+
+            <span>🍞</span>
+
+            <h2>
+                Bakery
+            </h2>
+
+        </div>
+
+
+        <div class="ingredients-list">
+
+
+            <div class="ingredient-item" data-name="Bread" data-meal="breakfast">
+                <div class="ingredient-icon">🍞</div>
+                <div class="ingredient-name">Bread</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Bun" data-meal="breakfast">
+                <div class="ingredient-icon">🥯</div>
+                <div class="ingredient-name">Bun</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Cake" data-meal="all">
+                <div class="ingredient-icon">🍰</div>
+                <div class="ingredient-name">Cake</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+
+            <div class="ingredient-item" data-name="Biscuits" data-meal="all">
+                <div class="ingredient-icon">🍪</div>
+                <div class="ingredient-name">Biscuits</div>
+                <div class="check-mark">✓</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- NO RESULTS -->
+
+    <div
+        id="noResults"
+        class="no-results">
+
+        No ingredients found.
+
+    </div>
+
+
+</main>
+
+
+
+<!-- ================= BOTTOM BAR ================= -->
+
+<div class="selection-bar">
+
+    <div class="selection-info">
+
+        <strong id="bottomCount">
+            0
+        </strong>
+
+        ingredients selected
+
+        <button
+            class="clear-button"
+            onclick="clearIngredients()">
+
+            Clear All
+
+        </button>
+
+    </div>
+
+
+    <button
+        class="find-button"
+        onclick="findRecipes()">
+
+        FIND WHAT I CAN COOK →
+
+    </button>
+
+</div>
+
+
+
+<script>
+
+    /* =========================================
+       SELECT INGREDIENTS
+       ========================================= */
+
+    const ingredientItems =
+        document.querySelectorAll(".ingredient-item");
+
+
+    ingredientItems.forEach(function(item) {
+
+        item.addEventListener("click", function() {
+
+            item.classList.toggle("selected");
+
+            updateCount();
+
+        });
+
+    });
+
+
+
+    /* =========================================
+       UPDATE COUNT
+       ========================================= */
+
+    function updateCount() {
+
+        const selected =
+            document.querySelectorAll(
+                ".ingredient-item.selected"
+            );
+
+        document.getElementById("selectedCount")
+            .textContent = selected.length;
+
+        document.getElementById("bottomCount")
+            .textContent = selected.length;
+
+    }
+
+
+
+    /* =========================================
+       SEARCH
+       ========================================= */
+
+    function searchIngredients() {
+
+        const search =
+            document
+            .getElementById("ingredientSearch")
+            .value
+            .toLowerCase();
+
+        let found = 0;
+
+
+        ingredientItems.forEach(function(item) {
+
+            const name =
+                item
+                .getAttribute("data-name")
+                .toLowerCase();
+
+
+            if (name.includes(search)) {
+
+                item.style.display = "flex";
+
+                found++;
+
+            } else {
+
+                item.style.display = "none";
+
+            }
+
+        });
+
+
+        document.getElementById("noResults")
+            .style.display =
+            found === 0 ? "block" : "none";
+
+    }
+
+
+
+    /* =========================================
+       MEAL FILTER
+       ========================================= */
+
+    function filterMeal(meal, button) {
+
+        document
+            .querySelectorAll(".meal-filter button")
+            .forEach(function(btn) {
+
+                btn.classList.remove("active");
+
+            });
+
+
+        button.classList.add("active");
+
+
+        let found = 0;
+
+
+        ingredientItems.forEach(function(item) {
+
+            const itemMeal =
+                item.getAttribute("data-meal");
+
+
+            if (
+                meal === "all" ||
+                itemMeal === "all" ||
+                itemMeal === meal
+            ) {
+
+                item.style.display = "flex";
+
+                found++;
+
+            } else {
+
+                item.style.display = "none";
+
+            }
+
+        });
+
+
+        document.getElementById("noResults")
+            .style.display =
+            found === 0 ? "block" : "none";
+
+    }
+
+
+
+    /* =========================================
+       CLEAR
+       ========================================= */
+
+    function clearIngredients() {
+
+        ingredientItems.forEach(function(item) {
+
+            item.classList.remove("selected");
+
+        });
+
+        updateCount();
+
+    }
+
+
+
+    /* =========================================
+       FIND RECIPES
+       ========================================= */
+
+    function findRecipes() {
+
+        const selected =
+            document.querySelectorAll(
+                ".ingredient-item.selected"
+            );
+
+
+        if (selected.length === 0) {
+
+            alert(
+                "Please select at least one ingredient."
+            );
+
+            return;
+
+        }
+
+
+        const ingredients = [];
+
+
+        selected.forEach(function(item) {
+
+            ingredients.push(
+                item.getAttribute("data-name")
+            );
+
+        });
+
+
+        localStorage.setItem(
+            "selectedIngredients",
+            JSON.stringify(ingredients)
+        );
+
+
+        window.location.href =
+            "matches.html";
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
