@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Kitchen Kraft - Recipes</title>
-
-    <link rel="stylesheet" href="CSS/style.css">
 
     <style>
         * {
@@ -19,8 +18,6 @@
             background: #f8f6ef;
             color: #26352a;
         }
-
-        /* HEADER */
 
         header {
             background: #ffffff;
@@ -57,8 +54,6 @@
             color: #315c3b;
         }
 
-        /* PAGE */
-
         .page {
             width: 90%;
             max-width: 1200px;
@@ -78,8 +73,6 @@
             color: #777;
             margin-bottom: 25px;
         }
-
-        /* SELECTED INGREDIENTS */
 
         .selected-box {
             background: white;
@@ -108,8 +101,6 @@
             font-size: 13px;
         }
 
-        /* FILTERS */
-
         .filters {
             display: flex;
             justify-content: center;
@@ -134,15 +125,11 @@
             color: white;
         }
 
-        /* COUNT */
-
         .recipe-count {
             margin-bottom: 20px;
             color: #666;
             font-size: 14px;
         }
-
-        /* RECIPE GRID */
 
         .recipe-grid {
             display: grid;
@@ -212,6 +199,7 @@
             color: #315c3b;
             font-weight: bold;
             font-size: 13px;
+            margin-bottom: 10px;
         }
 
         .ingredients-info {
@@ -239,8 +227,6 @@
             background: #24482d;
         }
 
-        /* NO RESULTS */
-
         .no-results {
             display: none;
             text-align: center;
@@ -267,7 +253,14 @@
             text-decoration: none;
         }
 
-        /* MOBILE */
+        .error-box {
+            background: #fff1f1;
+            border: 1px solid #e5aaaa;
+            color: #8b3030;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
 
         @media (max-width: 900px) {
             .recipe-grid {
@@ -279,10 +272,14 @@
 
             header {
                 padding: 15px 5%;
+                flex-direction: column;
+                gap: 15px;
             }
 
             nav {
                 gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             nav a {
@@ -320,10 +317,15 @@
 
     <nav>
         <a href="home.html">Home</a>
+
         <a href="ingredient.html">My Kitchen</a>
+
         <a href="matches.html">Recipes</a>
-        <a href="favorites.html">Favorites</a>
-        <a href="#" onclick="logoutUser()">Logout</a>
+
+        <!-- CORRECT FILE NAME -->
+        <a href="favorite.html">Favorites</a>
+
+        <a href="index.html" onclick="logoutUser()">Logout</a>
     </nav>
 
 </header>
@@ -331,14 +333,14 @@
 
 <div class="page">
 
-    <h1 class="page-title">Recipes You Can Make 🍴</h1>
+    <h1 class="page-title">
+        Recipes You Can Make 🍴
+    </h1>
 
     <p class="page-subtitle">
         Based on the ingredients available in your kitchen
     </p>
 
-
-    <!-- SELECTED INGREDIENTS -->
 
     <div class="selected-box">
 
@@ -346,51 +348,56 @@
             🧺 Your Ingredients
         </div>
 
-        <div id="selectedIngredients"
-             class="selected-ingredients">
+        <div
+            id="selectedIngredients"
+            class="selected-ingredients">
         </div>
 
     </div>
 
 
-    <!-- FILTERS -->
-
     <div class="filters">
 
-        <button class="filter-btn active"
-                onclick="filterRecipes('all', this)">
+        <button
+            class="filter-btn active"
+            type="button"
+            onclick="filterRecipes('all', this)">
             All
         </button>
 
-        <button class="filter-btn"
-                onclick="filterRecipes('80', this)">
+        <button
+            class="filter-btn"
+            type="button"
+            onclick="filterRecipes('80', this)">
             80%+
         </button>
 
-        <button class="filter-btn"
-                onclick="filterRecipes('50', this)">
+        <button
+            class="filter-btn"
+            type="button"
+            onclick="filterRecipes('50', this)">
             50%+
         </button>
 
     </div>
 
 
-    <div class="recipe-count" id="recipeCount">
+    <div
+        class="recipe-count"
+        id="recipeCount">
         Loading recipes...
     </div>
 
 
-    <!-- ALL 60 RECIPES WILL BE CREATED HERE -->
-
-    <div id="recipeGrid"
-         class="recipe-grid">
+    <div
+        id="recipeGrid"
+        class="recipe-grid">
     </div>
 
 
-    <!-- NO RESULTS -->
-
-    <div id="noResults"
-         class="no-results">
+    <div
+        id="noResults"
+        class="no-results">
 
         <div class="no-results-icon">
             🍳
@@ -402,8 +409,9 @@
             Try selecting some more ingredients.
         </p>
 
-        <a href="ingredient.html"
-           class="back-btn">
+        <a
+            href="ingredient.html"
+            class="back-btn">
             Choose Ingredients
         </a>
 
@@ -412,10 +420,15 @@
 </div>
 
 
-<!-- IMPORTANT: LOAD THE 60 RECIPES FIRST -->
+<!-- =========================================
+     LOAD RECIPE DATA FIRST
+========================================= -->
 
 <script src="recipeData.js"></script>
+
+<!-- COMMON JAVASCRIPT -->
 <script src="script.js"></script>
+
 
 <script>
 
@@ -423,31 +436,32 @@
     let currentFilter = "all";
 
 
-    /* --------------------------------
+    /* =========================================
        NORMALIZE INGREDIENT NAMES
-    -------------------------------- */
+    ========================================= */
 
     function normalizeIngredient(name) {
 
-        name = name
+        if (!name) {
+            return "";
+        }
+
+        name = String(name)
             .toLowerCase()
             .trim();
 
         const aliases = {
-
             "ragi": "ragi flour",
-
             "prawn": "prawns"
-
         };
 
         return aliases[name] || name;
     }
 
 
-    /* --------------------------------
+    /* =========================================
        GET SELECTED INGREDIENTS
-    -------------------------------- */
+    ========================================= */
 
     function getSelectedIngredients() {
 
@@ -460,7 +474,9 @@
 
         try {
 
-            return JSON.parse(saved);
+            const data = JSON.parse(saved);
+
+            return Array.isArray(data) ? data : [];
 
         } catch (error) {
 
@@ -470,9 +486,9 @@
     }
 
 
-    /* --------------------------------
-       CALCULATE MATCH %
-    -------------------------------- */
+    /* =========================================
+       CALCULATE MATCH
+    ========================================= */
 
     function calculateMatch(recipe) {
 
@@ -480,16 +496,38 @@
             getSelectedIngredients()
                 .map(normalizeIngredient);
 
-        if (recipe.ingredients.length === 0) {
+        if (!recipe.ingredients ||
+            recipe.ingredients.length === 0) {
+
             return 0;
         }
 
         let matched = 0;
 
-        recipe.ingredients.forEach(item => {
+        recipe.ingredients.forEach(function(item) {
 
-            const ingredientName =
-                normalizeIngredient(item[0]);
+            let ingredientName;
+
+            /*
+             Recipe ingredients are expected
+             to be arrays like:
+
+             ["Tomato", "2"]
+            */
+
+            if (Array.isArray(item)) {
+
+                ingredientName = item[0];
+
+            } else {
+
+                ingredientName = item;
+
+            }
+
+            ingredientName =
+                normalizeIngredient(ingredientName);
+
 
             if (selected.includes(ingredientName)) {
                 matched++;
@@ -497,25 +535,46 @@
 
         });
 
+
         return Math.round(
             (matched / recipe.ingredients.length) * 100
         );
     }
 
 
-    /* --------------------------------
-       PREPARE ALL 60 RECIPES
-    -------------------------------- */
+    /* =========================================
+       PREPARE RECIPES
+    ========================================= */
 
     function prepareRecipes() {
 
         allRecipes = [];
 
+
+        if (
+            typeof recipeData === "undefined" ||
+            !recipeData
+        ) {
+
+            showError(
+                "Recipe data could not be loaded."
+            );
+
+            return false;
+        }
+
+
         for (const id in recipeData) {
 
             const recipe = recipeData[id];
 
-            const match = calculateMatch(recipe);
+            if (!recipe) {
+                continue;
+            }
+
+            const match =
+                calculateMatch(recipe);
+
 
             allRecipes.push({
 
@@ -530,21 +589,60 @@
         }
 
 
-        /*
-         SORT:
-         Highest matching recipe first
-        */
-
         allRecipes.sort(
-            (a, b) => b.match - a.match
+            function(a, b) {
+
+                return b.match - a.match;
+
+            }
         );
+
+
+        return true;
+    }
+
+
+    /* =========================================
+       SHOW ERROR
+    ========================================= */
+
+    function showError(message) {
+
+        const grid =
+            document.getElementById("recipeGrid");
+
+        const count =
+            document.getElementById("recipeCount");
+
+
+        count.textContent =
+            "Unable to load recipes";
+
+
+        grid.innerHTML = `
+
+            <div class="error-box">
+
+                <h2>⚠️ Recipe loading problem</h2>
+
+                <p>
+                    ${message}
+                </p>
+
+                <p style="margin-top:10px;">
+                    Please refresh the page and try again.
+                </p>
+
+            </div>
+
+        `;
 
     }
 
 
-    /* --------------------------------
-       SHOW SELECTED INGREDIENTS
-    -------------------------------- */
+    /* =========================================
+       DISPLAY SELECTED INGREDIENTS
+    ========================================= */
 
     function displaySelectedIngredients() {
 
@@ -553,24 +651,29 @@
                 "selectedIngredients"
             );
 
+
         const selected =
             getSelectedIngredients();
+
 
         container.innerHTML = "";
 
 
         if (selected.length === 0) {
 
-            container.innerHTML =
-                `<span class="ingredient-pill">
+            container.innerHTML = `
+
+                <span class="ingredient-pill">
                     No ingredients selected
-                </span>`;
+                </span>
+
+            `;
 
             return;
         }
 
 
-        selected.forEach(ingredient => {
+        selected.forEach(function(ingredient) {
 
             const pill =
                 document.createElement("span");
@@ -588,33 +691,27 @@
     }
 
 
-    /* --------------------------------
+    /* =========================================
        DISPLAY RECIPES
-    -------------------------------- */
+    ========================================= */
 
     function displayRecipes() {
 
         const grid =
-            document.getElementById(
-                "recipeGrid"
-            );
+            document.getElementById("recipeGrid");
 
         const noResults =
-            document.getElementById(
-                "noResults"
-            );
+            document.getElementById("noResults");
 
         const count =
-            document.getElementById(
-                "recipeCount"
-            );
+            document.getElementById("recipeCount");
 
 
         grid.innerHTML = "";
 
 
         let filteredRecipes =
-            allRecipes.filter(recipe => {
+            allRecipes.filter(function(recipe) {
 
                 if (currentFilter === "80") {
 
@@ -634,7 +731,8 @@
 
 
         count.textContent =
-            `${filteredRecipes.length} recipes found`;
+            filteredRecipes.length +
+            " recipes found";
 
 
         if (filteredRecipes.length === 0) {
@@ -651,7 +749,7 @@
             "none";
 
 
-        filteredRecipes.forEach(recipe => {
+        filteredRecipes.forEach(function(recipe) {
 
             const card =
                 document.createElement("div");
@@ -660,15 +758,26 @@
                 "recipe-card";
 
 
-            /*
-             Show first few available ingredients
-            */
+            let ingredientNames = "";
 
-            const ingredientNames =
-                recipe.ingredients
-                    .slice(0, 4)
-                    .map(item => item[0])
-                    .join(", ");
+
+            if (Array.isArray(recipe.ingredients)) {
+
+                ingredientNames =
+                    recipe.ingredients
+                        .slice(0, 4)
+                        .map(function(item) {
+
+                            if (Array.isArray(item)) {
+                                return item[0];
+                            }
+
+                            return item;
+
+                        })
+                        .join(", ");
+
+            }
 
 
             card.innerHTML = `
@@ -677,12 +786,13 @@
                     ${recipe.emoji || "🍴"}
                 </div>
 
+
                 <div class="recipe-content">
 
                     <div class="recipe-top">
 
                         <h2 class="recipe-name">
-                            ${recipe.name}
+                            ${recipe.name || "Recipe"}
                         </h2>
 
                         <span class="match-badge">
@@ -695,24 +805,25 @@
                     <div class="recipe-info">
 
                         <span>
-                            ⏱ ${recipe.time}
+                            ⏱ ${recipe.time || "20 min"}
                         </span>
 
                         <span>
-                            👥 ${recipe.servings}
+                            👥 ${recipe.servings || "2"}
                         </span>
 
                     </div>
 
 
                     <div class="meal">
-                        ${recipe.meal}
+                        ${recipe.meal || ""}
                     </div>
 
 
                     <div class="ingredients-info">
 
                         <strong>Ingredients:</strong>
+
                         ${ingredientNames}
 
                     </div>
@@ -720,12 +831,14 @@
 
                     <a
                         href="recipe.html?recipe=${recipe.id}"
-                        class="view-btn"
-                    >
+                        class="view-btn">
+
                         VIEW RECIPE
+
                     </a>
 
                 </div>
+
             `;
 
 
@@ -736,9 +849,9 @@
     }
 
 
-    /* --------------------------------
+    /* =========================================
        FILTER RECIPES
-    -------------------------------- */
+    ========================================= */
 
     function filterRecipes(filter, button) {
 
@@ -747,7 +860,7 @@
 
         document
             .querySelectorAll(".filter-btn")
-            .forEach(btn => {
+            .forEach(function(btn) {
 
                 btn.classList.remove("active");
 
@@ -762,22 +875,42 @@
     }
 
 
-    /* --------------------------------
-       START
-    -------------------------------- */
+    /* =========================================
+       START PAGE
+    ========================================= */
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function() {
+    function startRecipesPage() {
 
-            prepareRecipes();
+        displaySelectedIngredients();
 
-            displaySelectedIngredients();
 
-            displayRecipes();
-
+        if (!prepareRecipes()) {
+            return;
         }
-    );
+
+
+        displayRecipes();
+
+    }
+
+
+    /*
+       recipeData.js is loaded before this script,
+       so DOMContentLoaded is safe.
+    */
+
+    if (document.readyState === "loading") {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            startRecipesPage
+        );
+
+    } else {
+
+        startRecipesPage();
+
+    }
 
 </script>
 
