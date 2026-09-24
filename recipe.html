@@ -7,10 +7,10 @@
 
     <title>Kitchen Kraft - Recipe</title>
 
-    <link rel="stylesheet" href="CSS/style.css">
+    <!-- CORRECT ROOT PATH -->
+    <link rel="stylesheet" href="style.css">
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -324,10 +324,14 @@
 
             header {
                 padding: 15px 5%;
+                flex-direction: column;
+                gap: 12px;
             }
 
             nav {
                 gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             nav a {
@@ -357,707 +361,711 @@
             .nutrition-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
         }
-
     </style>
 </head>
 
-
 <body>
 
+    <!-- HEADER -->
 
-<!-- HEADER -->
+    <header>
 
-<header>
+        <div class="logo">
+            <span>👨‍🍳</span>
+            Kitchen Kraft
+        </div>
 
-    <div class="logo">
-        <span>👨‍🍳</span>
-        Kitchen Kraft
-    </div>
+        <nav>
 
-    <nav>
+            <a href="home.html">
+                Home
+            </a>
 
-        <a href="home.html">Home</a>
+            <a href="ingredient.html">
+                My Kitchen
+            </a>
 
-        <a href="ingredient.html">
-            My Kitchen
+            <a href="matches.html">
+                Recipes
+            </a>
+
+            <!-- CORRECT FILE NAME -->
+            <a href="favorite.html">
+                ❤️ Favorites
+            </a>
+
+            <a href="#" onclick="logoutUser()">
+                Logout
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- RECIPE PAGE -->
+
+    <main class="recipe-page">
+
+        <a href="matches.html" class="back-link">
+            ← Back to Recipes
         </a>
 
-        <a href="matches.html">
-            Recipes
-        </a>
+        <div id="recipeContainer"></div>
 
-        <a href="favorites.html">
-            ❤️ Favorites
-        </a>
-
-        <a href="#" onclick="logoutUser()">
-            Logout
-        </a>
-
-    </nav>
-
-</header>
+    </main>
 
 
+    <!-- =========================================
+         LOAD DATA
+         FILES ARE IN ROOT FOLDER
+    ========================================== -->
 
-<!-- RECIPE PAGE -->
-
-<main class="recipe-page">
-
-
-    <a href="matches.html" class="back-link">
-        ← Back to Recipes
-    </a>
+    <script src="recipeData.js"></script>
+    <script src="script.js"></script>
 
 
-    <!-- RECIPE WILL BE LOADED HERE -->
+    <script>
 
-    <div id="recipeContainer"></div>
+        /* ==========================================
+           GET RECIPE ID FROM URL
+        ========================================== */
 
+        const urlParams =
+            new URLSearchParams(window.location.search);
 
-</main>
-
-
-
-<!-- LOAD DATA FIRST -->
-
-<script src="JS/recipeData.js"></script>
-
-<script src="JS/script.js"></script>
+        const recipeId =
+            urlParams.get("recipe");
 
 
-<script>
+        /* ==========================================
+           FAVORITES
+        ========================================== */
 
-    /* ==========================================
-       GET RECIPE ID FROM URL
-    ========================================== */
+        function getFavorites() {
 
-    const urlParams =
-        new URLSearchParams(window.location.search);
+            const saved =
+                localStorage.getItem(
+                    "kitchenKraftFavorites"
+                );
 
-    const recipeId =
-        urlParams.get("recipe");
+            if (!saved) {
+                return [];
+            }
+
+            try {
+                return JSON.parse(saved);
+            } catch {
+                return [];
+            }
+        }
 
 
-    /* ==========================================
-       FAVORITES
-    ========================================== */
+        function saveFavorites(favorites) {
 
-    function getFavorites() {
-
-        const saved =
-            localStorage.getItem(
-                "kitchenKraftFavorites"
+            localStorage.setItem(
+                "kitchenKraftFavorites",
+                JSON.stringify(favorites)
             );
 
-        if (!saved) {
-            return [];
         }
 
-        try {
-            return JSON.parse(saved);
-        } catch {
-            return [];
-        }
-    }
+
+        function toggleFavorite() {
+
+            let favorites =
+                getFavorites();
+
+            const index =
+                favorites.indexOf(recipeId);
 
 
-    function saveFavorites(favorites) {
+            if (index === -1) {
 
-        localStorage.setItem(
-            "kitchenKraftFavorites",
-            JSON.stringify(favorites)
-        );
+                favorites.push(recipeId);
 
-    }
+                saveFavorites(favorites);
 
+                updateFavoriteButton();
 
-    function toggleFavorite() {
+                alert("Recipe added to Favorites ❤️");
 
-        let favorites =
-            getFavorites();
+            } else {
 
-        const index =
-            favorites.indexOf(recipeId);
+                favorites.splice(index, 1);
 
+                saveFavorites(favorites);
 
-        if (index === -1) {
+                updateFavoriteButton();
 
-            favorites.push(recipeId);
+                alert("Recipe removed from Favorites");
 
-            saveFavorites(favorites);
-
-            updateFavoriteButton();
-
-            alert("Recipe added to Favorites ❤️");
-
-        } else {
-
-            favorites.splice(index, 1);
-
-            saveFavorites(favorites);
-
-            updateFavoriteButton();
-
-            alert("Recipe removed from Favorites");
+            }
 
         }
 
-    }
+
+        function updateFavoriteButton() {
+
+            const button =
+                document.getElementById(
+                    "favoriteButton"
+                );
+
+            if (!button) return;
 
 
-    function updateFavoriteButton() {
+            const favorites =
+                getFavorites();
 
-        const button =
-            document.getElementById(
-                "favoriteButton"
+
+            if (favorites.includes(recipeId)) {
+
+                button.classList.add("active");
+
+                button.innerHTML =
+                    "❤️ Added to Favorites";
+
+            } else {
+
+                button.classList.remove("active");
+
+                button.innerHTML =
+                    "♡ Add to Favorites";
+
+            }
+
+        }
+
+
+        /* ==========================================
+           DISPLAY RECIPE
+        ========================================== */
+
+        function displayRecipe() {
+
+            const container =
+                document.getElementById(
+                    "recipeContainer"
+                );
+
+
+            /*
+             * CHECK THAT RECIPE DATA LOADED
+             */
+
+            if (
+                !recipeId ||
+                typeof recipeData === "undefined" ||
+                !recipeData[recipeId]
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="error-box">
+
+                        <div style="font-size:60px;">
+                            🍳
+                        </div>
+
+                        <h2>
+                            Recipe Not Found
+                        </h2>
+
+                        <p>
+                            Sorry, we couldn't find this recipe.
+                        </p>
+
+                        <a
+                            href="matches.html"
+                            class="home-btn"
+                        >
+                            View Recipes
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            const recipe =
+                recipeData[recipeId];
+
+
+            /* =====================================
+               INGREDIENTS
+            ===================================== */
+
+            let ingredientsHTML = "";
+
+
+            recipe.ingredients.forEach(
+                function(item) {
+
+                    ingredientsHTML += `
+
+                        <li>
+
+                            <span class="ingredient-name">
+                                ${item[0]}
+                            </span>
+
+                            <span class="ingredient-quantity">
+                                ${item[1]}
+                            </span>
+
+                        </li>
+
+                    `;
+
+                }
             );
 
-        if (!button) return;
+
+            /* =====================================
+               COOKING STEPS
+            ===================================== */
+
+            let stepsHTML = "";
 
 
-        const favorites =
-            getFavorites();
+            recipe.steps.forEach(
+                function(step) {
 
+                    stepsHTML += `
 
-        if (favorites.includes(recipeId)) {
+                        <li>
+                            ${step}
+                        </li>
 
-            button.classList.add("active");
+                    `;
 
-            button.innerHTML =
-                "❤️ Added to Favorites";
-
-        } else {
-
-            button.classList.remove("active");
-
-            button.innerHTML =
-                "♡ Add to Favorites";
-
-        }
-
-    }
-
-
-
-    /* ==========================================
-       DISPLAY RECIPE
-    ========================================== */
-
-    function displayRecipe() {
-
-        const container =
-            document.getElementById(
-                "recipeContainer"
+                }
             );
 
 
-        if (
-            !recipeId ||
-            typeof recipeData === "undefined" ||
-            !recipeData[recipeId]
-        ) {
+            /* =====================================
+               NUTRITION
+            ===================================== */
+
+            const nutrition =
+                recipe.nutrition || {};
+
+
+            /* =====================================
+               CREATE RECIPE PAGE
+            ===================================== */
 
             container.innerHTML = `
 
-                <div class="error-box">
+                <!-- HERO -->
 
-                    <div style="font-size:60px;">
-                        🍳
+                <section class="recipe-hero">
+
+                    <div class="recipe-emoji">
+                        ${recipe.emoji || "🍴"}
                     </div>
 
-                    <h2>
-                        Recipe Not Found
-                    </h2>
 
-                    <p>
-                        Sorry, we couldn't find this recipe.
+                    <h1 class="recipe-title">
+                        ${recipe.name}
+                    </h1>
+
+
+                    <p class="recipe-description">
+                        A delicious ${recipe.meal || ""}
+                        recipe made with simple ingredients.
                     </p>
 
-                    <a
-                        href="matches.html"
-                        class="home-btn"
+
+                    <div class="recipe-meta">
+
+                        <span class="meta-item">
+                            ⏱ ${recipe.time || "N/A"}
+                        </span>
+
+                        <span class="meta-item">
+                            👥 ${recipe.servings || "N/A"} servings
+                        </span>
+
+                        <span class="meta-item">
+                            📊 ${recipe.difficulty || "Easy"}
+                        </span>
+
+                    </div>
+
+
+                    <!-- VOICE ASSISTANT -->
+
+                    <div class="voice-area">
+
+                        <button
+                            class="voice-btn speak-btn"
+                            onclick="speakRecipe()"
+                        >
+                            🎙️ Voice Assistant
+                        </button>
+
+
+                        <button
+                            class="voice-btn stop-btn"
+                            onclick="stopVoice()"
+                        >
+                            🔇 Stop
+                        </button>
+
+
+                        <div
+                            id="voiceStatus"
+                            class="voice-status"
+                        >
+                            Click Voice Assistant to hear the recipe.
+                        </div>
+
+                    </div>
+
+
+                    <!-- FAVORITE -->
+
+                    <button
+                        id="favoriteButton"
+                        class="favorite-btn"
+                        onclick="toggleFavorite()"
                     >
-                        View Recipes
-                    </a>
+                        ♡ Add to Favorites
+                    </button>
+
+                </section>
+
+
+                <!-- CONTENT -->
+
+                <div class="content-grid">
+
+
+                    <!-- INGREDIENTS -->
+
+                    <section class="section-card">
+
+                        <h2 class="section-title">
+                            🧺 Ingredients
+                        </h2>
+
+                        <ul class="ingredient-list">
+                            ${ingredientsHTML}
+                        </ul>
+
+                    </section>
+
+
+                    <!-- NUTRITION -->
+
+                    <section class="section-card">
+
+                        <h2 class="section-title">
+                            🥗 Nutrition
+                        </h2>
+
+                        <div class="nutrition-grid">
+
+                            <div class="nutrition-item">
+
+                                <div class="nutrition-value">
+                                    ${nutrition.calories || "-"}
+                                </div>
+
+                                <div class="nutrition-label">
+                                    Calories
+                                </div>
+
+                            </div>
+
+
+                            <div class="nutrition-item">
+
+                                <div class="nutrition-value">
+                                    ${nutrition.protein || "-"}
+                                </div>
+
+                                <div class="nutrition-label">
+                                    Protein
+                                </div>
+
+                            </div>
+
+
+                            <div class="nutrition-item">
+
+                                <div class="nutrition-value">
+                                    ${nutrition.carbs || "-"}
+                                </div>
+
+                                <div class="nutrition-label">
+                                    Carbs
+                                </div>
+
+                            </div>
+
+
+                            <div class="nutrition-item">
+
+                                <div class="nutrition-value">
+                                    ${nutrition.fat || "-"}
+                                </div>
+
+                                <div class="nutrition-label">
+                                    Fat
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- COOKING STEPS -->
+
+                    <section class="section-card full">
+
+                        <h2 class="section-title">
+                            👨‍🍳 Cooking Steps
+                        </h2>
+
+                        <ol class="steps">
+                            ${stepsHTML}
+                        </ol>
+
+                    </section>
+
 
                 </div>
 
             `;
 
-            return;
+
+            updateFavoriteButton();
 
         }
 
 
-        const recipe =
-            recipeData[recipeId];
+        /* ==========================================
+           VOICE ASSISTANT
+        ========================================== */
 
+        function speakRecipe() {
 
-        /* =====================================
-           INGREDIENTS HTML
-        ===================================== */
+            if (!("speechSynthesis" in window)) {
 
-        let ingredientsHTML = "";
+                alert(
+                    "Voice Assistant is not supported in this browser."
+                );
 
-
-        recipe.ingredients.forEach(
-            function(item) {
-
-                ingredientsHTML += `
-
-                    <li>
-
-                        <span class="ingredient-name">
-                            ${item[0]}
-                        </span>
-
-                        <span class="ingredient-quantity">
-                            ${item[1]}
-                        </span>
-
-                    </li>
-
-                `;
-
+                return;
             }
-        );
 
 
-        /* =====================================
-           STEPS HTML
-        ===================================== */
+            if (
+                !recipeId ||
+                typeof recipeData === "undefined" ||
+                !recipeData[recipeId]
+            ) {
 
-        let stepsHTML = "";
+                alert("Recipe not found.");
 
-
-        recipe.steps.forEach(
-            function(step) {
-
-                stepsHTML += `
-
-                    <li>
-                        ${step}
-                    </li>
-
-                `;
-
+                return;
             }
-        );
 
 
-        /* =====================================
-           NUTRITION
-        ===================================== */
+            const recipe =
+                recipeData[recipeId];
 
-        const nutrition =
-            recipe.nutrition || {};
-
-
-        container.innerHTML = `
-
-            <!-- HERO -->
-
-            <section class="recipe-hero">
-
-                <div class="recipe-emoji">
-                    ${recipe.emoji || "🍴"}
-                </div>
-
-
-                <h1 class="recipe-title">
-                    ${recipe.name}
-                </h1>
-
-
-                <p class="recipe-description">
-                    A delicious ${recipe.meal || ""}
-                    recipe made with simple ingredients.
-                </p>
-
-
-                <div class="recipe-meta">
-
-                    <span class="meta-item">
-                        ⏱ ${recipe.time || "N/A"}
-                    </span>
-
-                    <span class="meta-item">
-                        👥 ${recipe.servings || "N/A"} servings
-                    </span>
-
-                    <span class="meta-item">
-                        📊 ${recipe.difficulty || "Easy"}
-                    </span>
-
-                </div>
-
-
-                <!-- VOICE ASSISTANT -->
-
-                <div class="voice-area">
-
-                    <button
-                        class="voice-btn speak-btn"
-                        onclick="speakRecipe()"
-                    >
-                        🎙️ Voice Assistant
-                    </button>
-
-
-                    <button
-                        class="voice-btn stop-btn"
-                        onclick="stopVoice()"
-                    >
-                        🔇 Stop
-                    </button>
-
-
-                    <div
-                        id="voiceStatus"
-                        class="voice-status"
-                    >
-                        Click Voice Assistant to hear the recipe.
-                    </div>
-
-                </div>
-
-
-                <!-- FAVORITE -->
-
-                <button
-                    id="favoriteButton"
-                    class="favorite-btn"
-                    onclick="toggleFavorite()"
-                >
-                    ♡ Add to Favorites
-                </button>
-
-            </section>
-
-
-
-            <!-- CONTENT -->
-
-            <div class="content-grid">
-
-
-                <!-- INGREDIENTS -->
-
-                <section class="section-card">
-
-                    <h2 class="section-title">
-                        🧺 Ingredients
-                    </h2>
-
-                    <ul class="ingredient-list">
-                        ${ingredientsHTML}
-                    </ul>
-
-                </section>
-
-
-
-                <!-- NUTRITION -->
-
-                <section class="section-card">
-
-                    <h2 class="section-title">
-                        🥗 Nutrition
-                    </h2>
-
-                    <div class="nutrition-grid">
-
-                        <div class="nutrition-item">
-
-                            <div class="nutrition-value">
-                                ${nutrition.calories || "-"}
-                            </div>
-
-                            <div class="nutrition-label">
-                                Calories
-                            </div>
-
-                        </div>
-
-
-                        <div class="nutrition-item">
-
-                            <div class="nutrition-value">
-                                ${nutrition.protein || "-"}
-                            </div>
-
-                            <div class="nutrition-label">
-                                Protein
-                            </div>
-
-                        </div>
-
-
-                        <div class="nutrition-item">
-
-                            <div class="nutrition-value">
-                                ${nutrition.carbs || "-"}
-                            </div>
-
-                            <div class="nutrition-label">
-                                Carbs
-                            </div>
-
-                        </div>
-
-
-                        <div class="nutrition-item">
-
-                            <div class="nutrition-value">
-                                ${nutrition.fat || "-"}
-                            </div>
-
-                            <div class="nutrition-label">
-                                Fat
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-
-                <!-- COOKING STEPS -->
-
-                <section class="section-card full">
-
-                    <h2 class="section-title">
-                        👨‍🍳 Cooking Steps
-                    </h2>
-
-                    <ol class="steps">
-                        ${stepsHTML}
-                    </ol>
-
-                </section>
-
-
-            </div>
-
-        `;
-
-
-        updateFavoriteButton();
-
-    }
-
-
-
-    /* ==========================================
-       VOICE ASSISTANT
-    ========================================== */
-
-    function speakRecipe() {
-
-        if (!("speechSynthesis" in window)) {
-
-            alert(
-                "Voice Assistant is not supported in this browser."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !recipeId ||
-            !recipeData[recipeId]
-        ) {
-
-            alert("Recipe not found.");
-
-            return;
-
-        }
-
-
-        const recipe =
-            recipeData[recipeId];
-
-
-        /* Stop anything already speaking */
-
-        window.speechSynthesis.cancel();
-
-
-        let text = "";
-
-
-        /* INTRO */
-
-        text +=
-            "Welcome to Kitchen Kraft. ";
-
-
-        text +=
-            "Today we are making "
-            + recipe.name
-            + ". ";
-
-
-        /* TIME */
-
-        if (recipe.time) {
-
-            text +=
-                "The cooking time is "
-                + recipe.time
-                + ". ";
-
-        }
-
-
-        /* INGREDIENTS */
-
-        text +=
-            "Here are the ingredients. ";
-
-
-        recipe.ingredients.forEach(
-            function(item) {
-
-                text +=
-                    item[0]
-                    + ", "
-                    + item[1]
-                    + ". ";
-
-            }
-        );
-
-
-        /* STEPS */
-
-        text +=
-            "Now let's start cooking. ";
-
-
-        recipe.steps.forEach(
-            function(step, index) {
-
-                text +=
-                    "Step "
-                    + (index + 1)
-                    + ". "
-                    + step
-                    + ". ";
-
-            }
-        );
-
-
-        /* END */
-
-        text +=
-            "Your "
-            + recipe.name
-            + " is ready. Enjoy your meal!";
-
-
-        const speech =
-            new SpeechSynthesisUtterance(text);
-
-
-        speech.rate = 0.9;
-
-        speech.pitch = 1;
-
-        speech.volume = 1;
-
-
-        /* VOICE STATUS */
-
-        const status =
-            document.getElementById(
-                "voiceStatus"
-            );
-
-
-        status.textContent =
-            "🔊 Kitchen Kraft is reading the recipe...";
-
-
-        speech.onend =
-            function() {
-
-                status.textContent =
-                    "✅ Recipe reading completed.";
-
-            };
-
-
-        speech.onerror =
-            function() {
-
-                status.textContent =
-                    "⚠️ Unable to play the voice.";
-
-            };
-
-
-        window.speechSynthesis.speak(
-            speech
-        );
-
-    }
-
-
-
-    /* ==========================================
-       STOP VOICE
-    ========================================== */
-
-    function stopVoice() {
-
-        if (
-            "speechSynthesis" in window
-        ) {
 
             window.speechSynthesis.cancel();
+
+
+            let text = "";
+
+
+            /* INTRO */
+
+            text +=
+                "Welcome to Kitchen Kraft. ";
+
+
+            text +=
+                "Today we are making "
+                + recipe.name
+                + ". ";
+
+
+            /* TIME */
+
+            if (recipe.time) {
+
+                text +=
+                    "The cooking time is "
+                    + recipe.time
+                    + ". ";
+
+            }
+
+
+            /* INGREDIENTS */
+
+            text +=
+                "Here are the ingredients. ";
+
+
+            recipe.ingredients.forEach(
+                function(item) {
+
+                    text +=
+                        item[0]
+                        + ", "
+                        + item[1]
+                        + ". ";
+
+                }
+            );
+
+
+            /* STEPS */
+
+            text +=
+                "Now let's start cooking. ";
+
+
+            recipe.steps.forEach(
+                function(step, index) {
+
+                    text +=
+                        "Step "
+                        + (index + 1)
+                        + ". "
+                        + step
+                        + ". ";
+
+                }
+            );
+
+
+            /* END */
+
+            text +=
+                "Your "
+                + recipe.name
+                + " is ready. Enjoy your meal!";
+
+
+            const speech =
+                new SpeechSynthesisUtterance(text);
+
+
+            speech.rate = 0.9;
+            speech.pitch = 1;
+            speech.volume = 1;
+
+
+            /* VOICE STATUS */
 
             const status =
                 document.getElementById(
                     "voiceStatus"
                 );
 
+
             if (status) {
 
                 status.textContent =
-                    "🔇 Voice assistant stopped.";
+                    "🔊 Kitchen Kraft is reading the recipe...";
+
+            }
+
+
+            speech.onend =
+                function() {
+
+                    if (status) {
+
+                        status.textContent =
+                            "✅ Recipe reading completed.";
+
+                    }
+
+                };
+
+
+            speech.onerror =
+                function() {
+
+                    if (status) {
+
+                        status.textContent =
+                            "⚠️ Unable to play the voice.";
+
+                    }
+
+                };
+
+
+            window.speechSynthesis.speak(
+                speech
+            );
+
+        }
+
+
+        /* ==========================================
+           STOP VOICE
+        ========================================== */
+
+        function stopVoice() {
+
+            if (
+                "speechSynthesis" in window
+            ) {
+
+                window.speechSynthesis.cancel();
+
+
+                const status =
+                    document.getElementById(
+                        "voiceStatus"
+                    );
+
+
+                if (status) {
+
+                    status.textContent =
+                        "🔇 Voice assistant stopped.";
+
+                }
 
             }
 
         }
 
-    }
 
+        /* ==========================================
+           START
+        ========================================== */
 
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
 
-    /* ==========================================
-       START
-    ========================================== */
+                displayRecipe();
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function() {
+            }
+        );
 
-            displayRecipe();
-
-        }
-    );
-
-</script>
+    </script>
 
 </body>
+
 </html>
